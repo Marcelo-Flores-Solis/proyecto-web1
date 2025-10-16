@@ -55,3 +55,35 @@ header .cabecera .logo {
 header nav ul a:hover {
     background-color: #fcd58c;
 }
+
+
+/* SECCIÓN PRINCIPAL */
+main h2 {
+    font-size: 2em;
+    padding: 10px;
+}
+main {
+    margin-left: 50px;
+    margin-right: 20px;
+}
+main .principales {
+    /* align-items: center; */
+    /* justify-content: center; */
+    text-align: center;
+}
+main section.datos {
+    max-width: 35%;
+    margin: auto;
+    padding: 15px;
+    border: 1px solid gray;
+    border-radius: 10px;
+    box-shadow: 0px 0px 5px gray;
+}
+main section.datos ul {
+    text-align: left;
+    padding: 0px;
+}
+main section.datos ul li {
+    list-style-type: none;
+    color: #5e5e5e;
+}
