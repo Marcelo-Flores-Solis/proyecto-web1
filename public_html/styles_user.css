@@ -105,3 +105,15 @@ main div.libros section {
 }
 
 /* SECCIÓN CIERRE DE SESIÓN */
+main section.cerrarsesion h4 {
+    text-align: center;
+}
+main section.cerrarsesion h4 a {
+    text-decoration: none;
+    /* text-align: center; */
+    margin: auto;
+    padding: 10px 30px 10px 30px;
+    background-color: #f13636;
+    border-radius: 10px;
+    color: white;
+}
