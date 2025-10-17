@@ -67,11 +67,44 @@ header nav ul a:hover {
 }
 
 /* SECCIÓN PRINCIPAL */
+main {
+    margin: 0px 50px 0px 50px;
+}
 /* SECCIÓN DEL LIBRO */
+
 main section.libro {
-    align-items: center;
+    display: flex;
+    justify-content: center;
+    /* align-items: center; */
+}
+main section.libro .librodatos {
+    margin: 20px;
+    padding: 20px;
+    width: 60%;
+    border: 1px solid gray;
+}
+main section.libro .imagen {
+    margin: 20px;
+    border: 1px solid gray;
+    border-radius: 15px;
+    width: 350px;
+    height: 500px;
+}
+main section.libro .imagen img {
+    /* align-items: center; */
+    /* text-align: center;
+    justify-content: center; */
+    display: flex;
+    margin: 10px;
 }
 
+/* BOTÓN PARA CONSEGUIR */
+main section.libro .librodatos a {
+    text-decoration: none;
+    background-color: rgb(174, 255, 53);
+    padding: 10px 20px 10px 20px;
+    border-radius: 10px;
+}
 
 /* SECCIÓN DEL FOOTER */
 footer {
