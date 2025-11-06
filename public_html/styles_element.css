@@ -1,0 +1,120 @@
+* {
+    margin: 0px;
+    font-family: Arial, Helvetica, sans-serif;
+}
+html {
+    min-height: 100%;
+    position: relative;
+}
+body {
+    margin-bottom: 80px;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+.cabecera {
+    /* float: left; */
+    display: flex;
+}
+header nav {
+    width: 100%;
+}
+/* header nav ul {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+} */
+header nav ul {
+    display: flex;
+    justify-content: space-between;
+    padding: 0px;
+    margin: 0px;
+    padding-inline-start: 0px;
+}
+header nav ul li {
+    text-align: left;
+    list-style-type: none;
+    display: inline;
+    flex: 1;
+    font-size: 1.1em;
+    font-family: Arial, Helvetica, sans-serif;
+}
+header nav ul a {
+    padding: 8px;
+    /* height: 20px; */
+    margin: auto;
+    /* margin-left: 100px; */
+    /* align-items: center; */
+    text-align: center;
+    justify-content: center;
+    display: flex;
+    text-decoration: none;
+    background-color: orange;
+    color: #4d4d4d;
+}
+header .cabecera .logo {
+    /* text-align: center; */
+    /* color: red; */
+    display: flex;
+    justify-content: center;
+    margin: auto;
+    padding: 0px 10px 0px 10px;
+}
+
+header nav ul a:hover {
+    background-color: #fcd58c;
+}
+
+/* SECCIÓN PRINCIPAL */
+main {
+    margin: 0px 50px 0px 50px;
+}
+/* SECCIÓN DEL LIBRO */
+
+main section.libro {
+    display: flex;
+    justify-content: center;
+    /* align-items: center; */
+}
+main section.libro .librodatos {
+    margin: 20px;
+    padding: 20px;
+    width: 60%;
+    border: 1px solid gray;
+}
+main section.libro .imagen {
+    margin: 20px;
+    border: 1px solid gray;
+    border-radius: 15px;
+    width: 350px;
+    height: 500px;
+}
+main section.libro .imagen img {
+    /* align-items: center; */
+    /* text-align: center;
+    justify-content: center; */
+    display: flex;
+    margin: 10px;
+}
+
+/* BOTÓN PARA CONSEGUIR */
+main section.libro .librodatos a {
+    text-decoration: none;
+    background-color: rgb(174, 255, 53);
+    padding: 10px 20px 10px 20px;
+    border-radius: 10px;
+}
+
+/* SECCIÓN DEL FOOTER */
+footer {
+    width: 100%;
+    height: 80px;
+    background-color: orange;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    position: absolute;
+    bottom: 0;
+}
