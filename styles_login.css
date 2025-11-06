@@ -92,6 +92,13 @@ main {
     padding: 0 2rem;
     text-align: center;
 }
+
+/* Formulario centrado */
+#formulario {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
 main form {
     max-width: 600px;
     width: 100%;
