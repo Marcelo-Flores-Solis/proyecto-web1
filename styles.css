@@ -1,60 +1,133 @@
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #f5f5f5;
-            margin: 0;
-            padding: 0;
-            color: #222222a2;
-        }
+    /* base */
+    * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    }
 
-        header {
-            background-color: #000;
-            color: white;
-            padding: 20px 0;
-            text-align: center;
-            letter-spacing: 2px;
-        }
+    body {
+    font-family: 'Poppins', sans-serif;
+    background-color: #FBF5F3; 
+    color: #000022;           
+    line-height: 1.6;
+    }
 
-        nav {
-            background-color: #222;
-            display: flex;
-            justify-content: center;
-            gap: 40px;
-            padding: 12px 0;
-        }
+    /*-----------*/
+    header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background-color: #000022; 
+    color: #FBF5F3;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.25);
+    z-index: 1000;
+    }
 
-        nav a {
-            color: gray;
-            text-decoration: none;
-            font-weight: 600;
-            transition: color 0.3s ease;
-        }
+    .cabecera {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0.8rem 2rem;
+    }
 
-        nav a:hover {
-            color: white;
-        }
+     /*-----------*/
+    .logo h1 {
+    color: #E28413; 
+    font-size: 1.7rem;
+    letter-spacing: 1px;
+    transition: transform 0.3s ease;
+    }
 
-        main {
-            max-width: 800px;
-            margin: 60px auto;
-            padding: 0 20px;
-            text-align: center;
-        }
+    .logo h1:hover {
+    transform: scale(1.05);
+    }
 
-        h1 {
-            font-size: 2.8em;
-            margin-bottom: 10px;
-            color: #b6b6b6a8;
-        }
+     /*-----------*/
+    nav ul {
+    list-style: none;
+    display: flex;
+    gap: 1.5rem;
+    }
 
-        p {
-            line-height: 1.7;
-            font-size: 1.1em;
-        }
+    nav a {
+    text-decoration: none;
+    color: #FBF5F3;
+    font-weight: 500;
+    font-size: 1rem;
+    transition: color 0.3s ease, transform 0.2s ease;
+    }
 
-        footer {
-            margin-top: 80px;
-            text-align: center;
-            font-size: 0.9em;
-            color: #e7dfdf;
-            padding: 20px 0;
-        }
+    nav a:hover {
+    color: #E28413;
+    transform: translateY(-2px);
+    }
+
+     /*-----------*/
+    main {
+    max-width: 900px;
+    margin: 120px auto 80px auto; 
+    padding: 0 2rem;
+    text-align: justify;
+    }
+
+    main h2 {
+    color: #E28413;
+    margin-bottom: 1rem;
+    font-size: 1.8rem;
+    }
+
+    main p {
+    font-size: 1.05rem;
+    }
+
+     /*-----------*/
+    footer {
+    background-color: #000022;
+    color: #FBF5F3;
+    text-align: center;
+    padding: 1rem 0;
+    font-size: 0.9rem;
+    }
+
+     /*-----------*/
+    @media (max-width: 768px) {
+    .cabecera {
+        flex-direction: column;
+        gap: 0.6rem;
+    }
+
+    nav ul {
+        gap: 1rem;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    .logo h1 {
+        font-size: 1.4rem;
+    }
+
+    main {
+        margin-top: 140px;
+    }
+    }
+
+    @media (max-width: 480px) {
+    nav ul {
+        flex-direction: column;
+        background-color: #0a0a3a;
+        padding: 0.8rem 1rem;
+        border-radius: 10px;
+    }
+
+    nav a {
+        display: block;
+        padding: 0.4rem 0;
+    }
+
+    main {
+        padding: 1rem;
+    }
+    }
