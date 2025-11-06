@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Contraseña olvidada</title>
     <link rel="stylesheet" href="../styles_formato.css">
+    <link rel="stylesheet" href="styles_form.css">
     <link rel="stylesheet" href="styles_forgot.css">
     <script src="enviarInstrucciones.js"> </script>
 </head>
@@ -14,10 +15,10 @@
             <div class="logo"><h1>ZEBRALibra</h1></div>
             <nav>
                 <ul>
-                    <li><a href="index.html">Inicio</a></li>
+                    <li><a href="../index.html">Inicio</a></li>
                     <li><a href="login.html">Iniciar Sesión</a></li> <!-- Login -->
-                    <li><a href="public_html/user.html">Perfil</a></li>
-                    <li><a href="public_html/element.html">LibroExpandido</a></li>
+                    <li><a href="../public_html/user.html">Perfil</a></li>
+                    <li><a href="../public_html/element.html">LibroExpandido</a></li>
                 </ul>
             </nav>
         </div>
@@ -34,9 +35,10 @@
                     <label for="email">Correo electrónico</label>
                     <input type="email" name="email" id="email" placeholder="ejemplo@correo.com" required>
                 </div>
+                <br>
                 <button class="submit" type="submit" onclick="enviar()">Enviar instrucciones</button>
                 <div class="volver">
-                    <a href="../login.html">Volver a Inicio de sesión</a>
+                    <a href="login.html">Volver a Inicio de sesión</a>
                 </div>
             </form>
         </div>
