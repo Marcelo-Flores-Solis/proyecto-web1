@@ -5,7 +5,7 @@ const formulario = document.getElementById("form-register");
 formulario.addEventListener("submit", function(event) {
     event.preventDefault();
     
-    const nombre = document.getElementById("name").value;
+    const nombre = document.getElementById("username").value;
     const email = document.getElementById("email").value;
     const pwd = document.getElementById("password").value;
     const pwdConfirm = document.getElementById("password2").value;
