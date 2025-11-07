@@ -26,7 +26,14 @@
     transition: transform 0.18s ease, opacity 0.18s ease;
     }
 
-    main img:hover {
-        transform: translateY(-4px) scale(1.02);
-        opacity: 1;
+    main h1 {
+    text-align: center;
+    font-family: "arial";
+    color: #E28413;        
+    font-size: 2.2rem;    
+    font-weight: 700;
+    margin: auto;
+    letter-spacing: 0.6px;
     }
+
+    
