@@ -27,7 +27,8 @@ header {
     margin: 0 auto;
     padding: 0.8rem 2rem;
 }
-.logo h1 {
+.logo h1 a {
+    text-decoration: none;
     color: #E28413;
     font-size: 1.7rem;
     letter-spacing: 1px;
