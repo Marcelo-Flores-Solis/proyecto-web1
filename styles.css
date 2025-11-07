@@ -17,12 +17,16 @@
 
     main img {
     display: block;
-    margin: 20px auto;
-    width: 100%;
-    max-width: 900px;
-    height: auto;
-    border-radius: 12px;
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
-    object-fit: cover;
-    transition: transform 0.25s ease, box-shadow 0.25s ease;
+    margin: 14px auto;
+    width: 38%;         
+    max-width: 280px;  
+    opacity: 0.8;       
+    border-radius: 8px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+    transition: transform 0.18s ease, opacity 0.18s ease;
+    }
+
+    main img:hover {
+        transform: translateY(-4px) scale(1.02);
+        opacity: 1;
     }
