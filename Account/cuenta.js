@@ -20,4 +20,4 @@ credencialesMap.set(cuenta3.gmail, cuenta3.contrasena);
 
 const loginForm = document.getElementById('loginForm');
 const usernameInput = document.getElementById('username'); 
-const passwordInput = document.getElementById('password');ñ
+const passwordInput = document.getElementById('password');
