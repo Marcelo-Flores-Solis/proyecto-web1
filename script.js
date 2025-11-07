@@ -7,8 +7,17 @@ formulario.addEventListener("submit", function(event) {
     
     const nombre = document.getElementById("username").value;
     const email = document.getElementById("email").value;
-    const pwd = document.getElementById("password").value;
-    const pwdConfirm = document.getElementById("password2").value;
+    let pwd = document.getElementById("password").value;
+    let pwdConfirm = document.getElementById("password2").value;
+
+    if (pwd !== pwdConfirm) { // Verificación de que las contraseñas coincidan
+        alert("Las contraseñas no coinciden.");
+        document.getElementById("password").value = "";
+        document.getElementById("password2").value = "";
+        pwd = "";
+        pwdConfirm = "";
+        return;
+    }
 
     // Se imprime las variables en la consola para verificar su captura
     console.log("Nombre:", nombre);
