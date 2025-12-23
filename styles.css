@@ -1,0 +1,16 @@
+
+    main {
+    max-width: 900px;
+    padding: 0 2rem;
+    text-align: justify;
+    }
+
+    main h2 {
+    color: #E28413;
+    margin-bottom: 1rem;
+    font-size: 1.8rem;
+    }
+
+    main p {
+    font-size: 1.05rem;
+    }

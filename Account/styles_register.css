@@ -1,0 +1,39 @@
+/*Centrado y formato*/
+.login {
+    margin-top: 20px;
+    font-size: 0.9em;
+    color: #777;
+    text-align: center;
+}
+/*Link decorado*/
+.login a {
+    color: #007bff;
+    text-decoration: none;
+    font-weight: bold;
+}
+/*Separar del boton*/
+.continuar {
+    text-align: center;
+    position: relative;
+    margin: 25px 0;
+}
+/*Forma de boton*/
+.continuar a {
+    display: block;
+    width: 100%;
+    text-decoration: none;
+    text-align: center;
+    padding: 12px;
+    background-color: #fff; 
+    color: #333;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s, border-color 0.3s;
+}
+/*Cambio de color*/
+.continuar a:hover {
+    background-color: #f4f4f4;
+    border-color: #aaa;
+}

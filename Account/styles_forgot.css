@@ -1,0 +1,26 @@
+/*Separar del boton*/
+.volver {
+    text-align: center;
+    position: relative;
+    margin: 25px 0;
+}
+/*Forma de boton*/
+.volver a {
+    display: block;
+    width: 100%;
+    text-decoration: none;
+    text-align: center;
+    padding: 12px;
+    background-color: #fff;
+    color: #333;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s, border-color 0.3s;
+}
+/*Cambio de color*/
+.volver a:hover {
+    background-color: #f4f4f4;
+    border-color: #aaa;
+}
