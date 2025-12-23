@@ -1,13 +1,24 @@
 main {
-max-width: 900px;
-padding: 0 2rem;
-text-align: justify;
+    max-width: 900px;
+    padding: 0 2rem;
+    text-align: justify;
 }
 main h2 {
-color: #E28413;
-margin-bottom: 1rem;
-font-size: 1.8rem;
+    color: #E28413;
+    margin-bottom: 1rem;
+    font-size: 1.8rem;
 }
 main p {
-font-size: 1.05rem;
+    font-size: 1.05rem;
+}
+#title {
+    font-size: 2rem;
+    text-align: center;
+    margin-top: 1.5rem;
+}
+img {
+    display: block;
+    margin: 1rem auto 2rem auto;
+    width: 300px;
+    height: auto;
 }
