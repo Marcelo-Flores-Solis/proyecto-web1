@@ -8,9 +8,9 @@ from urllib.parse import parse_qs, urlparse
 # --- IMPORTACIÓN DIRECTA ---
 try:
     import db_manager as db
-    print("✅ Base de datos cargada correctamente.")
+    print("Base de datos cargada correctamente.")
 except ImportError as e:
-    print(f"⚠️ ERROR CRÍTICO: {e}")
+    print(f"ERROR CRÍTICO: {e}")
     db = None
 
 # CONFIGURACIÓN
@@ -122,6 +122,6 @@ class BibliotecaHandler(http.server.BaseHTTPRequestHandler):
 
 if __name__ == "__main__":
     os.chdir(ROOT_DIR)
-    print(f"📚 Servidor corriendo en http://localhost:{PORT}")
+    print(f"Servidor corriendo en http://localhost:{PORT}")
     with socketserver.TCPServer(("", PORT), BibliotecaHandler) as httpd:
         httpd.serve_forever()
