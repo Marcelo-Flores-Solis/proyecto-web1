@@ -14,11 +14,9 @@ TEMPLATES_DIR = os.path.join(PUBLIC_DIR, 'templates')
 ASSETS_DIR = os.path.join(PUBLIC_DIR, 'assets')
 
 # --- CONEXIÓN A BASE DE DATOS (SOLUCIÓN A PRUEBA DE FALLOS) ---
-# 1. Agregamos la carpeta 'dataBase' a la lista de lugares donde Python busca código
 sys.path.append(os.path.join(ROOT_DIR, 'dataBase'))
 
 try:
-    # 2. Ahora podemos importar el archivo directamente por su nombre
     import db_manager as db
     print("✅ Base de datos cargada correctamente.")
 except ImportError as e:
@@ -45,7 +43,6 @@ class BibliotecaHandler(http.server.BaseHTTPRequestHandler):
         }
 
         try:
-            # --- API: TODOS LOS LIBROS ---
             if path == '/api/libros':
                 if db:
                     lista_libros = db.obtener_todos_los_libros()
@@ -57,7 +54,6 @@ class BibliotecaHandler(http.server.BaseHTTPRequestHandler):
                     self.send_error(500, "Error: No hay conexión con la Base de Datos")
                 return
 
-            # --- API: UN SOLO LIBRO (DETALLE) ---
             if path == '/api/libro':
                 query_params = parse_qs(parsed_path.query)
                 id_libro = query_params.get('id', [None])[0]
@@ -75,7 +71,6 @@ class BibliotecaHandler(http.server.BaseHTTPRequestHandler):
                     self.send_error(400, "Falta el ID en la URL")
                 return
 
-            # --- SERVIR HTML Y ASSETS ---
             if path == '/':
                 self.servir_archivo_raiz('index.html')
             
@@ -89,7 +84,7 @@ class BibliotecaHandler(http.server.BaseHTTPRequestHandler):
                 self.send_error(404, "Pagina no encontrada")
 
         except Exception as e:
-            print(f"🔥 Error Interno: {e}")
+            print(f"Error Interno: {e}")
             self.send_error(500, f"Error interno: {e}")
 
     def do_POST(self):
@@ -107,24 +102,22 @@ class BibliotecaHandler(http.server.BaseHTTPRequestHandler):
         path_completo = os.path.join(TEMPLATES_DIR, filename)
         
         # --- MODO DETECTIVE ---
-        print(f"🔎 Buscando plantilla: {filename}")
-        print(f"📂 Ruta completa esperada: {path_completo}")
+        print(f"Buscando plantilla: {filename}")
+        print(f"Ruta completa esperada: {path_completo}")
         
         if os.path.exists(path_completo):
-            print("✅ ¡Archivo encontrado!")
+            print("¡Archivo encontrado!")
         else:
-            print("❌ ¡EL ARCHIVO NO ESTÁ AHÍ!")
-            # Listamos qué archivos SÍ están en la carpeta para ver si hay error de nombre
+            print("¡EL ARCHIVO NO ESTÁ AHÍ!")
             try:
                 archivos_en_carpeta = os.listdir(TEMPLATES_DIR)
-                print(f"👀 Archivos disponibles en la carpeta templates: {archivos_en_carpeta}")
+                print(f"Archivos disponibles en la carpeta templates: {archivos_en_carpeta}")
             except:
-                print("⚠️ Ni siquiera encuentro la carpeta templates")
+                print("Ni siquiera encuentro la carpeta templates")
         # ----------------------
 
         self.enviar_archivo(path_completo)
     def servir_statico(self):
-        # Quitamos el primer slash para que os.path.join funcione bien
         ruta_relativa = self.path.lstrip('/') 
         path_completo = os.path.join(PUBLIC_DIR, ruta_relativa)
         self.enviar_archivo(path_completo)
@@ -133,7 +126,6 @@ class BibliotecaHandler(http.server.BaseHTTPRequestHandler):
         try:
             with open(path, 'rb') as f:
                 content = f.read()
-            # Adivinamos el tipo (css, html, jpg, js)
             mime_type, _ = mimetypes.guess_type(path)
             
             self.send_response(200)
@@ -141,7 +133,7 @@ class BibliotecaHandler(http.server.BaseHTTPRequestHandler):
             self.end_headers()
             self.wfile.write(content)
         except FileNotFoundError:
-            print(f"❌ Archivo no encontrado: {path}")
+            print(f"Archivo no encontrado: {path}")
             self.send_error(404, "Archivo no encontrado")
 
     def manejar_login(self):
@@ -151,14 +143,13 @@ class BibliotecaHandler(http.server.BaseHTTPRequestHandler):
         self.end_headers()
 
 if __name__ == "__main__":
-    # Nos aseguramos de trabajar en el directorio correcto
     os.chdir(ROOT_DIR)
     
     print("-" * 50)
-    print(f"📂 Directorio Raíz: {ROOT_DIR}")
+    print(f"Directorio Raíz: {ROOT_DIR}")
     
     with socketserver.TCPServer(("", PORT), BibliotecaHandler) as httpd:
-        print(f"📚 Servidor corriendo en http://localhost:{PORT}")
+        print(f"Servidor corriendo en http://localhost:{PORT}")
         print("-" * 50)
         try:
             httpd.serve_forever()
