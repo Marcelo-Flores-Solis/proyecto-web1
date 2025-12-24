@@ -1,26 +1,64 @@
-/*Separar del boton*/
-.volver {
-    text-align: center;
-    position: relative;
-    margin: 25px 0;
+/* Formulario centrado */
+#formulario {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
-/*Forma de boton*/
-.volver a {
-    display: block;
+/*Formulario decorado*/
+main form {
+    max-width: 600px;
     width: 100%;
-    text-decoration: none;
-    text-align: center;
-    padding: 12px;
     background-color: #fff;
+    padding: 40px;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    text-align: left;
+}
+/*Cambio de color*/
+.text h2 {
+    margin-top: 0px;
+    margin-bottom: 5px;
     color: #333;
+    font-size: 1.75em;
+}
+/*Cambio de color*/
+.text p {
+    margin-bottom: 5px;
+    color: #777;
+    font-size: 0.9em;
+}
+/*Input con formato*/
+.input input {
+    margin-bottom: 2px;
+    text-align: left;
+    width: 100%;
+    padding: 12px;
     border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    font-size: 16px;
+}
+/*Label decorado*/
+.input label {
+    display: block;
+    margin-bottom: 2px;
+    font-weight: 600;
+    color: #555;
+    font-size: 0.9em;
+}
+/*Boton principal que envida el form decorado*/
+main form button {
+    width: 100%;
+    padding: 12px;
+    background-color: #007bff;
+    color: white;
+    border: none;
     border-radius: 4px;
     font-size: 16px;
     cursor: pointer;
-    transition: background-color 0.3s, border-color 0.3s;
+    transition: background-color 0.3s;
 }
-/*Cambio de color*/
-.volver a:hover {
-    background-color: #f4f4f4;
-    border-color: #aaa;
+/*Cambio de color del boton*/
+main form button:hover {
+    background-color: #0056b3;
 }

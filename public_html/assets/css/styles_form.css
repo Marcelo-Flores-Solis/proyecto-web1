@@ -1,64 +1,89 @@
-/* Formulario centrado */
+/* ========================== ESTILOS DE FORMULARIO ========================== */
+
+/* Contenedor principal centrado */
 #formulario {
     display: flex;
     flex-direction: column;
     align-items: center;
-}
-/*Formulario decorado*/
-main form {
-    max-width: 600px;
+    justify-content: center;
     width: 100%;
-    background-color: #fff;
+    min-height: 60vh; /* Ayuda a centrarlo verticalmente */
+}
+
+/* Tarjeta del formulario */
+main form {
+    max-width: 500px;
+    width: 100%;
+    background-color: #ffffff;
     padding: 40px;
     border-radius: 8px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08); /* Sombra más suave */
     text-align: left;
 }
-/*Cambio de color*/
+
+/* Títulos y textos */
 .text h2 {
-    margin-top: 0px;
-    margin-bottom: 5px;
-    color: #333;
-    font-size: 1.75em;
+    margin-top: 0;
+    margin-bottom: 10px;
+    color: var(--primary-color, #000022);
+    font-size: 1.8rem;
+    font-weight: 600;
 }
-/*Cambio de color*/
+
 .text p {
-    margin-bottom: 5px;
-    color: #777;
-    font-size: 0.9em;
+    margin-bottom: 30px;
+    color: #666;
+    font-size: 0.95rem;
 }
-/*Input con formato*/
-.input input {
-    margin-bottom: 2px;
-    text-align: left;
-    width: 100%;
-    padding: 12px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    box-sizing: border-box;
-    font-size: 16px;
+
+/* Contenedor de cada campo (Label + Input) */
+.input {
+    margin-bottom: 20px; /* Espacio entre inputs */
 }
-/*Label decorado*/
+
+/* Etiquetas */
 .input label {
     display: block;
-    margin-bottom: 2px;
-    font-weight: 600;
-    color: #555;
-    font-size: 0.9em;
+    margin-bottom: 8px;
+    font-weight: 500;
+    color: #444;
+    font-size: 0.9rem;
 }
-/*Boton principal que envida el form decorado*/
+
+/* Campos de entrada */
+.input input {
+    width: 100%;
+    padding: 12px 15px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font-size: 1rem;
+    font-family: inherit; /* Hereda la fuente Poppins */
+    transition: all 0.3s ease;
+    outline: none; /* Quita el borde azul por defecto del navegador */
+}
+
+/* Efecto al hacer clic en el input */
+.input input:focus {
+    border-color: var(--primary-color, #000022);
+    box-shadow: 0 0 0 3px rgba(0, 0, 34, 0.1);
+}
+
+/* Botón principal */
 main form button {
     width: 100%;
-    padding: 12px;
-    background-color: #007bff;
-    color: white;
+    padding: 14px;
+    margin-top: 10px;
+    background-color: var(--primary-color, #000022); /* Usa el color de la marca */
+    color: #ffffff;
     border: none;
-    border-radius: 4px;
-    font-size: 16px;
+    border-radius: 6px;
+    font-size: 1rem;
+    font-weight: 600;
     cursor: pointer;
-    transition: background-color 0.3s;
+    transition: background-color 0.3s ease, transform 0.2s;
 }
-/*Cambio de color del boton*/
+
 main form button:hover {
-    background-color: #0056b3;
+    background-color: var(--accent-color, #E28413); /* Cambio de color al pasar el mouse */
+    transform: translateY(-2px);
 }

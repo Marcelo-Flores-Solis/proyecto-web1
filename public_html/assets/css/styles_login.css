@@ -1,64 +1,88 @@
-/*Coloca 2 elementos en extremos opuestos*/
+/* ========================== OPCIONES Y LINKS (LOGIN) ========================== */
+
+/* Contenedor de Recordar y Olvidé contraseña */
 .opciones {
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin-bottom: 25px;
-    font-size: 0.9em;
+    font-size: 0.9rem;
+    color: #666;
 }
-/*Alineado*/
-.opciones label{
+
+/* Checkbox y etiqueta */
+.opciones label {
     display: flex;
     align-items: center;
-    color: #555;
+    cursor: pointer;
 }
-/*Separa texto de input*/
+
 .opciones label input {
-    vertical-align: middle;
-    margin: 0;
-    margin-right: 5px;
+    margin-right: 8px;
+    cursor: pointer;
 }
-/*Link decorado*/
+
+/* Enlace de recuperación */
 .opciones a {
-    color: #007bff;
+    color: var(--primary-color, #000022);
     text-decoration: none;
+    font-weight: 500;
+    transition: color 0.3s ease;
 }
-/*Centrado y formato*/
+
+.opciones a:hover {
+    color: var(--accent-color, #E28413);
+    text-decoration: underline;
+}
+
+/* Sección de Registro */
 .registro {
-    margin-top: 20px;
-    font-size: 0.9em;
-    color: #777;
+    margin-top: 30px;
+    font-size: 0.95rem;
+    color: #666;
     text-align: center;
+    border-top: 1px solid #eee;
+    padding-top: 20px;
 }
-/*Link decorado*/
+
 .registro a {
-    color: #007bff;
+    color: var(--primary-color, #000022);
     text-decoration: none;
-    font-weight: bold;
+    font-weight: 700;
+    transition: color 0.3s ease;
 }
-/*Separar del boton*/
+
+.registro a:hover {
+    color: var(--accent-color, #E28413);
+}
+
+/* ========================== BOTÓN CONTINUAR ========================== */
+
 .continuar {
-    text-align: center;
-    position: relative;
     margin: 25px 0;
+    text-align: center;
+    width: 100%;
 }
-/*Forma de boton*/
+
+/* Estilo consistente con botón Volver */
 .continuar a {
     display: block;
     width: 100%;
+    padding: 12px;
     text-decoration: none;
     text-align: center;
-    padding: 12px;
-    background-color: #fff; 
-    color: #333;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    font-size: 16px;
-    cursor: pointer;
-    transition: background-color 0.3s, border-color 0.3s;
+    background-color: #ffffff;
+    color: #555555;
+    border: 1px solid #cccccc;
+    border-radius: 6px;
+    font-size: 1rem;
+    font-weight: 500;
+    transition: all 0.3s ease;
 }
-/*Cambio de color*/
+
 .continuar a:hover {
-    background-color: #f4f4f4;
-    border-color: #aaa;
+    background-color: #f9f9f9;
+    border-color: var(--primary-color, #000022);
+    color: var(--primary-color, #000022);
+    transform: translateY(-2px);
 }

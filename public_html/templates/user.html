@@ -3,94 +3,51 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ZEBRALibra | Perfil del Usuario</title>
-    
+    <title>ZEBRALibra | Mi Perfil</title>
     <link rel="stylesheet" href="/assets/css/styles_formato.css">
-    <link rel="stylesheet" href="/assets/css/styles_user.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-</head>
+    <link rel="stylesheet" href="/assets/css/styles_user.css"> </head>
 <body>
-    <header> 
+    <header>
         <div class="cabecera">
-            <div class="logo">
-                <h1><a href="/">ZEBRALibra</a></h1>
-            </div>
+            <div class="logo"><h1><a href="/">ZEBRALibra</a></h1></div>
             <nav>
                 <ul>
                     <li><a href="/">Inicio</a></li>
                     <li><a href="/catalogo">Catálogo</a></li>
-                    <li><a href="/usuario" class="activo">Perfil</a></li>
+                    <li><a href="#" id="btn-logout-nav">Salir</a></li>
                 </ul>
             </nav>
         </div>
-        <br>
     </header>
-    
+
     <main>
+        <h2>Mi Perfil</h2>
+
+        <section class="datos">
+            <h3>Mis Datos</h3>
+            <ul>
+                <li><strong>Nombre:</strong> <span id="perfil-nombre">Cargando...</span></li>
+                <li><strong>Email:</strong> <span id="perfil-email">Cargando...</span></li>
+                <li><strong>Miembro desde:</strong> 2025</li>
+            </ul>
+        </section>
+
         <div class="principales">
-            <h2 id="saludo-usuario">¡Hola!</h2>
-            <br>
-            
-            <section class="datos">
-                <h4>Datos personales</h4>
-                <ul style="list-style: none; padding-left: 0;">
-                    <li><b>Nombre: </b><span id="perfil-nombre">Cargando...</span></li>
-                    <li><b>Edad: </b><span id="perfil-edad">--</span></li>
-                    <li><b>Correo: </b><span id="perfil-email">Cargando...</span></li>
-                    <li><b>Rol: </b><span id="perfil-rol">Lector</span></li>
-                </ul>
-            </section>
+            <h2>Mis Préstamos Activos</h2>
+            <div class="libros" id="lista-prestamos">
+                <p style="width: 100%; color: #666;">No tienes libros prestados actualmente.</p>
+            </div>
         </div>
 
-        <br><hr><br>
-
-        <div class="libros-seccion">
-            <section class="listlibros">
-                <h4>📚 Mis Libros Guardados</h4>
-                <ul id="lista-libros">
-                    <li>No tienes libros guardados aún.</li>
-                </ul>
-            </section>
-
-            <section class="favoritos"> 
-                <h4>❤️ Favoritos</h4>
-                <ul id="lista-favoritos">
-                    <li>No tienes favoritos aún.</li>
-                </ul>
-            </section>
-        </div>
-
-        <br>
-        
-        <section class="cerrarsesion" style="text-align: center; margin-top: 30px;">
-            <a href="/login" style="color: red; text-decoration: none; font-weight: bold; border: 1px solid red; padding: 10px 20px; border-radius: 5px;">
-                Cerrar sesión
-            </a>
+        <section class="cerrarsesion">
+            <h4><a href="#" id="btn-logout-main">Cerrar Sesión</a></h4>
         </section>
     </main>
-    
+
     <footer>
-        <p>© 2025 ZEBRALibra — Biblioteca Virtual creada con pasión por la lectura.</p>
+        <p>© 2025 ZEBRALibra</p>
     </footer>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            // SIMULAMOS DATOS DE UN USUARIO CONECTADO
-            // En el futuro, esto vendrá de la base de datos o LocalStorage
-            const usuarioSimulado = {
-                nombre: "Administrador",
-                email: "admin@zebralibra.com",
-                edad: 25,
-                rol: "Bibliotecario"
-            };
-
-            // Rellenamos el HTML con los datos
-            document.getElementById('saludo-usuario').innerText = `¡Hola, ${usuarioSimulado.nombre}!`;
-            document.getElementById('perfil-nombre').innerText = usuarioSimulado.nombre;
-            document.getElementById('perfil-email').innerText = usuarioSimulado.email;
-            document.getElementById('perfil-edad').innerText = `${usuarioSimulado.edad} años`;
-            document.getElementById('perfil-rol').innerText = usuarioSimulado.rol;
-        });
-    </script>
+    <script src="/assets/scripts/script.js"></script>
 </body>
 </html>

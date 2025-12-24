@@ -6,8 +6,8 @@ def crear_conexion():
     try:
         connection = mysql.connector.connect(
             host='localhost',
-            user='root',       # Tu usuario (en XAMPP suele ser root)
-            password='',       # Tu contraseña (en XAMPP suele ser vacía)
+            user='root',
+            password='',
             database='biblioteca'
         )
         return connection
@@ -15,48 +15,74 @@ def crear_conexion():
         print(f"Error al conectar a MySQL: {e}")
         return None
 
+# --- LIBROS ---
 def obtener_todos_los_libros():
-    """Devuelve la lista completa para el Catálogo"""
     conn = crear_conexion()
-    libros_lista = []
-    
-    if conn and conn.is_connected():
-        cursor = conn.cursor(dictionary=True) 
-        cursor.execute("SELECT * FROM libros")
-        libros_lista = cursor.fetchall()
-        cursor.close()
-        conn.close()
-        
-    return libros_lista
-
-def obtener_libro_por_id(id_libro):
-    """Devuelve UN SOLO libro para la página de Detalle"""
-    conn = crear_conexion()
-    libro = None
-    
+    lista = []
     if conn and conn.is_connected():
         cursor = conn.cursor(dictionary=True)
-        # Buscamos donde el ID coincida
-        query = "SELECT * FROM libros WHERE id = %s"
-        cursor.execute(query, (id_libro,))
+        cursor.execute("SELECT * FROM libros")
+        lista = cursor.fetchall()
+        cursor.close()
+        conn.close()
+    return lista
+
+def obtener_libro_por_id(id_libro):
+    conn = crear_conexion()
+    libro = None
+    if conn and conn.is_connected():
+        cursor = conn.cursor(dictionary=True)
+        cursor.execute("SELECT * FROM libros WHERE id = %s", (id_libro,))
         libro = cursor.fetchone()
         cursor.close()
         conn.close()
-        
     return libro
 
-# --- FUNCIONES PARA USUARIOS (Para cuando hagamos el Login Real) ---
-def guardar_usuario(nombre, email, password):
+def prestar_libro(id_libro):
+    """Cambia el estado del libro a NO DISPONIBLE (0)"""
     conn = crear_conexion()
+    exito = False
     if conn and conn.is_connected():
-        cursor = conn.cursor()
-        query = "INSERT INTO usuarios (nombre, email, password) VALUES (%s, %s, %s)"
         try:
-            cursor.execute(query, (nombre, email, password))
+            cursor = conn.cursor()
+            query = "UPDATE libros SET disponible = 0 WHERE id = %s"
+            cursor.execute(query, (id_libro,))
             conn.commit()
-            print("Usuario guardado correctamente")
+            exito = True
         except Error as e:
-            print(f"Error al guardar usuario: {e}")
+            print(f"Error prestando libro: {e}")
         finally:
             cursor.close()
             conn.close()
+    return exito
+
+# --- USUARIOS ---
+def guardar_usuario(nombre, email, password):
+    conn = crear_conexion()
+    if conn and conn.is_connected():
+        try:
+            cursor = conn.cursor()
+            query = "INSERT INTO usuarios (nombre, email, password) VALUES (%s, %s, %s)"
+            cursor.execute(query, (nombre, email, password))
+            conn.commit()
+            cursor.close()
+            conn.close()
+            return True
+        except Error as e:
+            print(f"Error al guardar usuario: {e}")
+            return False
+    return False
+
+def verificar_usuario(email, password):
+    """Busca si el email y contraseña coinciden"""
+    conn = crear_conexion()
+    usuario = None
+    if conn and conn.is_connected():
+        cursor = conn.cursor(dictionary=True)
+        # NOTA: En un proyecto real, la contraseña debería estar encriptada.
+        query = "SELECT * FROM usuarios WHERE email = %s AND password = %s"
+        cursor.execute(query, (email, password))
+        usuario = cursor.fetchone()
+        cursor.close()
+        conn.close()
+    return usuario

@@ -1,39 +1,58 @@
-/*Centrado y formato*/
+/* ========================== LINK A LOGIN ========================== */
+
+/* Contenedor de texto inferior */
 .login {
-    margin-top: 20px;
-    font-size: 0.9em;
-    color: #777;
+    margin-top: 30px;
+    padding-top: 20px;
+    border-top: 1px solid #eee; /* Separador sutil */
+    font-size: 0.95rem;
+    color: #666;
     text-align: center;
 }
-/*Link decorado*/
+
+/* Enlace estilizado */
 .login a {
-    color: #007bff;
+    color: var(--primary-color, #000022);
     text-decoration: none;
-    font-weight: bold;
+    font-weight: 700;
+    transition: color 0.3s ease;
 }
-/*Separar del boton*/
+
+.login a:hover {
+    color: var(--accent-color, #E28413);
+    text-decoration: underline;
+}
+
+/* ========================== BOTÓN CONTINUAR ========================== */
+
 .continuar {
-    text-align: center;
-    position: relative;
     margin: 25px 0;
+    text-align: center;
+    width: 100%;
 }
-/*Forma de boton*/
+
+/* Estilo consistente con botones secundarios */
 .continuar a {
     display: block;
     width: 100%;
+    padding: 12px;
     text-decoration: none;
     text-align: center;
-    padding: 12px;
-    background-color: #fff; 
-    color: #333;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    font-size: 16px;
-    cursor: pointer;
-    transition: background-color 0.3s, border-color 0.3s;
+    
+    background-color: #ffffff;
+    color: #555555;
+    border: 1px solid #cccccc;
+    
+    border-radius: 6px;
+    font-size: 1rem;
+    font-weight: 500;
+    transition: all 0.3s ease;
 }
-/*Cambio de color*/
+
+/* Efecto hover */
 .continuar a:hover {
-    background-color: #f4f4f4;
-    border-color: #aaa;
+    background-color: #f9f9f9;
+    border-color: var(--primary-color, #000022);
+    color: var(--primary-color, #000022);
+    transform: translateY(-2px);
 }
