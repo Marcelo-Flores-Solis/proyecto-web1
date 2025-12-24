@@ -4,12 +4,8 @@
     box-sizing: border-box;
 }
 body {
-    position: relative;
-    min-height: 100vh;
-    margin: 0;
-    padding-bottom: 4rem;
     font-family: 'Poppins', sans-serif;
-    background-color: #F6F1ED;
+    background-color: #FBF5F3;
     color: #000022;
     line-height: 1.6;
 }
@@ -31,7 +27,8 @@ header {
     margin: 0 auto;
     padding: 0.8rem 2rem;
 }
-.logo h1 {
+.logo h1 a {
+    text-decoration: none;
     color: #E28413;
     font-size: 1.7rem;
     letter-spacing: 1px;
@@ -57,9 +54,6 @@ nav a:hover {
     transform: translateY(-2px);
 }
 footer {
-    position: absolute;
-    bottom: 0;  
-    width: 100%;
     background-color: #000022;
     color: #FBF5F3;
     text-align: center;
