@@ -18,9 +18,9 @@ sys.path.append(os.path.join(ROOT_DIR, 'dataBase'))
 
 try:
     import db_manager as db
-    print("✅ Base de datos cargada correctamente.")
+    print("Base de datos cargada correctamente.")
 except ImportError as e:
-    print(f"⚠️ ERROR CRÍTICO: No se pudo cargar 'db_manager.py'. Detalle: {e}")
+    print(f"ERROR CRÍTICO: No se pudo cargar 'db_manager.py'. Detalle: {e}")
     print(f"   (Buscando en: {os.path.join(ROOT_DIR, 'dataBase')})")
     db = None
 # -------------------------------------------------------------

@@ -6,7 +6,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const contenedorLibros = document.getElementById('contenedor-libros');
     
     if (contenedorLibros) {
-        console.log("📚 Cargando catálogo desde la Base de Datos...");
+        console.log("Cargando catálogo desde la Base de Datos...");
         
         // Pedimos los datos al servidor Python (que a su vez los pide a MySQL)
         fetch('/api/libros')
@@ -57,7 +57,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const idLibro = params.get('id');
 
         if (idLibro) {
-            console.log(`🔍 Buscando libro ID: ${idLibro}`);
+            console.log(`Buscando libro ID: ${idLibro}`);
             
             // Pedimos SÓLO ese libro a la API
             fetch(`/api/libro?id=${idLibro}`)
