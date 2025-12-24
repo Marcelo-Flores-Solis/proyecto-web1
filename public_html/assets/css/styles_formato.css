@@ -2,10 +2,10 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap');
 
 :root {
-    --primary-color: #000022;    /* Azul Oscuro */
-    --accent-color: #E28413;     /* Naranja */
-    --bg-color: #FBF5F3;         /* Blanco Hueso */
-    --text-color: #1a1a1a;       /* Negro Suave */
+    --primary-color: #000022;
+    --accent-color: #E28413; 
+    --bg-color: #FBF5F3;     
+    --text-color: #1a1a1a;   
     --white: #ffffff;
 }
 
@@ -46,7 +46,7 @@ header {
     max-width: 1200px;
     margin: 0 auto;
     padding: 0.8rem 2rem;
-    height: 70px; /* Altura fija para calcular margenes */
+    height: 70px;
 }
 
 .logo h1 a {

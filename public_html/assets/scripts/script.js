@@ -1,8 +1,7 @@
 document.addEventListener('DOMContentLoaded', () => {
 
-    // ======================================================
     // 1. GESTIÓN DE SESIÓN (Logueado o no)
-    // ======================================================
+
     const usuarioGuardado = localStorage.getItem('usuario_zebra');
     let usuario = null;
 
@@ -18,9 +17,8 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // ======================================================
     // 2. PÁGINA DE PERFIL (user.html)
-    // ======================================================
+
     const perfilNombre = document.getElementById('perfil-nombre');
     
     // Si estamos en la página de perfil (porque existe el elemento 'perfil-nombre')
@@ -42,17 +40,16 @@ document.addEventListener('DOMContentLoaded', () => {
                 btn.addEventListener('click', (e) => {
                     e.preventDefault();
                     if(confirm("¿Seguro que quieres cerrar sesión?")) {
-                        localStorage.removeItem('usuario_zebra'); // Borrar sesión
-                        window.location.href = '/login'; // Ir al login
+                        localStorage.removeItem('usuario_zebra');
+                        window.location.href = '/login';
                     }
                 });
             }
         });
     }
-
-    // ======================================================
+    
     // 3. REGISTRO (register.html)
-    // ======================================================
+    
     const formRegistro = document.getElementById('form-registro');
 
     if (formRegistro) {
@@ -85,9 +82,8 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // ======================================================
     // 4. LOGIN (login.html)
-    // ======================================================
+
     // Asegúrate de ponerle id="form-login" a tu <form> en login.html
     const formLogin = document.getElementById('form-login');
 
@@ -117,9 +113,8 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // ======================================================
     // 5. CATÁLOGO Y BUSCADOR (catalogo.html)
-    // ======================================================
+
     const contenedorLibros = document.getElementById('contenedor-libros');
     const inputBuscador = document.getElementById('buscador');
     let librosMemoria = []; 
@@ -160,9 +155,9 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // ======================================================
+
     // 6. DETALLE Y PRÉSTAMO (element.html)
-    // ======================================================
+
     const tituloDetalle = document.getElementById('detalle-titulo');
 
     if (tituloDetalle) {
@@ -180,7 +175,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     document.getElementById('detalle-img').src = libro.img;
                     
                     // Lógica del botón prestar
-                    const btnPrestar = document.getElementById('btn-prestar'); // Necesitas ponerle este ID al botón en element.html
+                    const btnPrestar = document.getElementById('btn-prestar');
                     if(btnPrestar) {
                         if(libro.disponible == 0) {
                             btnPrestar.innerText = "No Disponible";

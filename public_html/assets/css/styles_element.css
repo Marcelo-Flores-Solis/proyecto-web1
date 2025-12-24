@@ -3,9 +3,9 @@
 /* Contenedor principal del detalle */
 .libro-detalle-container {
     display: flex;
-    flex-wrap: wrap; /* Permite que baje en moviles */
+    flex-wrap: wrap;
     justify-content: center;
-    gap: 40px; /* Espacio entre imagen y texto */
+    gap: 40px;
     max-width: 1000px;
     margin: 50px auto;
     padding: 20px;
@@ -13,7 +13,7 @@
 
 /* Sección de la Imagen (Portada) */
 .libro-imagen {
-    flex: 0 0 300px; /* Ancho base fijo de 300px */
+    flex: 0 0 300px;
     display: flex;
     justify-content: center;
 }
@@ -23,14 +23,14 @@
     max-width: 300px;
     height: auto;
     border-radius: 8px;
-    box-shadow: 0 10px 20px rgba(0,0,0,0.2); /* Sombra elegante */
+    box-shadow: 0 10px 20px rgba(0,0,0,0.2);
     object-fit: cover;
 }
 
 /* Sección de Datos (Texto) */
 .libro-info {
-    flex: 1; /* Ocupa el resto del espacio */
-    min-width: 300px; /* Evita que se aplaste demasiado */
+    flex: 1;
+    min-width: 300px;
     display: flex;
     flex-direction: column;
 }
@@ -56,7 +56,7 @@
     background-color: #f9f9f9;
     padding: 20px;
     border-radius: 8px;
-    border-left: 4px solid #333; /* Linea decorativa lateral */
+    border-left: 4px solid #333;
     margin-bottom: 30px;
     line-height: 1.6;
     color: #444;
@@ -72,12 +72,12 @@
 .acciones {
     display: flex;
     gap: 15px;
-    margin-top: auto; /* Empuja los botones hacia abajo si sobra espacio */
+    margin-top: auto;
 }
 
 /* Estilo del Botón Principal (Prestar) */
 .acciones button {
-    background-color: #28a745; /* Verde estandar web */
+    background-color: #28a745;
     color: white;
     border: none;
     padding: 12px 24px;
@@ -95,7 +95,7 @@
 /* Estilo del Botón Secundario (Volver) */
 .acciones a {
     text-decoration: none;
-    background-color: #6c757d; /* Gris neutro */
+    background-color: #6c757d;
     color: white;
     padding: 12px 24px;
     border-radius: 6px;

@@ -7,7 +7,7 @@
     align-items: center;
     justify-content: center;
     width: 100%;
-    min-height: 60vh; /* Ayuda a centrarlo verticalmente */
+    min-height: 60vh;
 }
 
 /* Tarjeta del formulario */
@@ -17,7 +17,7 @@ main form {
     background-color: #ffffff;
     padding: 40px;
     border-radius: 8px;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08); /* Sombra más suave */
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
     text-align: left;
 }
 
@@ -38,7 +38,7 @@ main form {
 
 /* Contenedor de cada campo (Label + Input) */
 .input {
-    margin-bottom: 20px; /* Espacio entre inputs */
+    margin-bottom: 20px;
 }
 
 /* Etiquetas */
@@ -57,9 +57,9 @@ main form {
     border: 1px solid #ddd;
     border-radius: 6px;
     font-size: 1rem;
-    font-family: inherit; /* Hereda la fuente Poppins */
+    font-family: inherit;
     transition: all 0.3s ease;
-    outline: none; /* Quita el borde azul por defecto del navegador */
+    outline: none;
 }
 
 /* Efecto al hacer clic en el input */
@@ -73,7 +73,7 @@ main form button {
     width: 100%;
     padding: 14px;
     margin-top: 10px;
-    background-color: var(--primary-color, #000022); /* Usa el color de la marca */
+    background-color: var(--primary-color, #000022);
     color: #ffffff;
     border: none;
     border-radius: 6px;
@@ -84,6 +84,6 @@ main form button {
 }
 
 main form button:hover {
-    background-color: var(--accent-color, #E28413); /* Cambio de color al pasar el mouse */
+    background-color: var(--accent-color, #E28413);
     transform: translateY(-2px);
 }
