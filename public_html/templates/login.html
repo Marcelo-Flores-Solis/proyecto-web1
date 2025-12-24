@@ -2,66 +2,75 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=, initial-scale=1.0">
-    <title>ZEBRALibra | Entrar Sesion</title>
-    <link rel="stylesheet" href="../styles_formato.css">
-    <link rel="stylesheet" href="styles_form.css">
-    <link rel="stylesheet" href="styles_login.css">
-    <script src="cuenta.js"></script>
-</head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ZEBRALibra | Iniciar Sesión</title>
+    
+    <link rel="stylesheet" href="/assets/css/styles_formato.css">
+    <link rel="stylesheet" href="/assets/css/styles_form.css">
+    <link rel="stylesheet" href="/assets/css/styles_login.css">
+    </head>
 <body>
     <header>
         <div class="cabecera">
-            <div class="logo"><h1><a href="../index.html">ZEBRALibra</a></h1></div>
+            <div class="logo"><h1><a href="/">ZEBRALibra</a></h1></div>
             <nav>
                 <ul>
-                    <li><a href="../index.html">Inicio</a></li>
-                    <li><a href="../public_html/catalogo.html">Catálogo</a></li>
-                    <li><a href="login.html">Iniciar Sesión</a></li> <!-- Login -->
-                    <li><a href="register.html">Regístrate</a></li>
-                    <li><a href="../public_html/user.html">Perfil</a></li>
-                    <!-- <li><a href="../public_html/element.html">LibroExpandido</a></li> -->
+                    <li><a href="/">Inicio</a></li>
+                    <li><a href="/catalogo">Catálogo</a></li>
+                    <li><a href="/login" class="activo">Iniciar Sesión</a></li>
+                    <li><a href="/registro">Regístrate</a></li>
+                    <li><a href="/usuario">Perfil</a></li>
                 </ul>
             </nav>
         </div>
         <br>
     </header>
+
     <main>
-        <div id="formulario"> <!-- Formulario en un div para centrarlo -->
-            <form id="loginForm">
+        <div id="formulario"> 
+            <form action="/login" method="POST">
                 <div class="text">
-                    <h2>Iniciar sesion</h2>
-                    <p>Bienvenido, inicia sesion para poder guardar tus datos</p>
+                    <h2>Iniciar Sesión</h2>
+                    <p>Bienvenido, inicia sesión para acceder a tu biblioteca personal.</p>
                 </div>
+
                 <div class="input">
-                    <label for="email">Correo electrónico</label>
-                    <input id="email" name="email" type="email" placeholder="ejemplo@correo.com" required>
+                    <label for="username">Usuario o Correo</label>
+                    <input id="username" name="username" type="text" placeholder="Ej: admin o usuario@correo.com" required>
                 </div>
+                
                 <br>
+                
                 <div class="input">
                     <label for="password">Contraseña</label>
                     <input id="password" name="password" type="password" placeholder="Tu contraseña" required>
                 </div>
+                
                 <br>
+                
                 <div class="opciones">
-                    <label for="Recuerdame">
-                        <input type="radio" id="remember"> Recuérdame
+                    <label for="remember" style="cursor: pointer;">
+                        <input type="checkbox" id="remember" name="remember"> Recuérdame
                     </label>
                     <br>
-                    <a href="ForgotPwd.html">¿Olvidaste tu  contraseña?</a>
+                    <a href="/recuperar" style="font-size: 0.9em;">¿Olvidaste tu contraseña?</a>
                 </div>
-                <button type="submit">Entrar</button>
+
+                <button type="submit" class="submit">Entrar</button>
+                
                 <div class="registro">
-                    <p>¿No tienes cuenta? <a href="register.html">Regístrate</a></p>
+                    <p>¿No tienes cuenta? <a href="/registro">Regístrate</a></p>
                 </div>
+                
                 <div class="continuar">
-                    <a href="../index.html">Continuar sin cuenta</a>
+                    <a href="/">Continuar sin cuenta</a>
                 </div>
             </form>
         </div>
     </main>
+
     <footer>
-        © 2025 ZEBRALibra — Biblioteca Virtual creada con pasión por la lectura.
+        <p>© 2025 ZEBRALibra — Biblioteca Virtual creada con pasión por la lectura.</p>
     </footer>
 </body>
 </html>

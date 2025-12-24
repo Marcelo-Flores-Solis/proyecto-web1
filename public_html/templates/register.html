@@ -4,70 +4,101 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ZEBRALibra | Registrarse</title>
-    <link rel="stylesheet" href="../styles_formato.css">
-    <link rel="stylesheet" href="styles_form.css">
-    <link rel="stylesheet" href="styles_register.css">
-    <script src="cuenta.js"></script>
+    
+    <link rel="stylesheet" href="/assets/css/styles_formato.css">
+    <link rel="stylesheet" href="/assets/css/styles_form.css">
+    <link rel="stylesheet" href="/assets/css/styles_register.css">
 </head>
 <body>
     <header>
         <div class="cabecera">
-            <div class="logo"><h1><a href="../index.html">ZEBRALibra</a></h1></div>
+            <div class="logo"><h1><a href="/">ZEBRALibra</a></h1></div>
             <nav>
                 <ul>
-                    <li><a href="../index.html">Inicio</a></li>
-                    <li><a href="../public_html/catalogo.html">Catálogo</a></li>
-                    <li><a href="login.html">Iniciar Sesión</a></li> <!-- Login -->
-                    <li><a href="register.html">Regístrate</a></li>
-                    <li><a href="../public_html/user.html">Perfil</a></li>
-                    <!-- <li><a href="../public_html/element.html">LibroExpandido</a></li> -->
+                    <li><a href="/">Inicio</a></li>
+                    <li><a href="/catalogo">Catálogo</a></li>
+                    <li><a href="/login">Iniciar Sesión</a></li>
+                    <li><a href="/registro" class="activo">Regístrate</a></li>
+                    <li><a href="/usuario">Perfil</a></li>
                 </ul>
             </nav>
         </div>
         <br>
     </header>
+
     <main>
         <div id="formulario">
-            <form method="post" id="form-register">
+            <form id="form-register">
                 <div class="text">
                     <h2>Crear cuenta</h2>
-                    <p>Registrate gratis</p>
+                    <p>Regístrate gratis para empezar a leer</p>
                 </div>
+
                 <div class="input">
-                    <label for="name">Nombre completo</label>
-                    <input id="username" name="name" type="text" placeholder="Tu nombre" required>
+                    <label for="fullname">Nombre completo</label>
+                    <input id="fullname" name="name" type="text" placeholder="Tu nombre" required>
                 </div>
+                
                 <br>
+                
                 <div class="input">
                     <label for="email">Correo electrónico</label>
                     <input id="email" name="email" type="email" placeholder="ejemplo@correo.com" required>
                 </div>
+                
                 <br>
+                
                 <div class="input">
                     <label for="password">Contraseña</label>
                     <input id="password" name="password" type="password" placeholder="Tu contraseña" required>
                 </div>
+                
                 <br>
+                
                 <div class="input">
                     <label for="password2">Confirmar contraseña</label>
                     <input id="password2" name="password2" type="password" placeholder="Repite la contraseña" required>
                 </div>
+                
                 <br>
+                
                 <button class="submit" type="submit">Registrarme</button>
 
                 <div class="login">
-                    <p>¿Ya tienes cuenta? <a href="login.html">Inicia sesión</a></p>
+                    <p>¿Ya tienes cuenta? <a href="/login">Inicia sesión</a></p>
                 </div>
 
                 <div class="continuar">
-                    <a href="../index.html">Continuar sin cuenta</a>
+                    <a href="/">Continuar sin cuenta</a>
                 </div>
             </form>
         </div>
-        <script src="../script.js"></script>
     </main>
+
     <footer>
         © 2025 ZEBRALibra — Biblioteca Virtual creada con pasión por la lectura.
     </footer>
+
+    <script>
+        document.getElementById('form-register').addEventListener('submit', function(e) {
+            e.preventDefault(); // Evita que la página recargue y de error 404
+            
+            const pass1 = document.getElementById('password').value;
+            const pass2 = document.getElementById('password2').value;
+            const nombre = document.getElementById('fullname').value;
+
+            // Validación simple
+            if (pass1 !== pass2) {
+                alert("Las contraseñas no coinciden. Por favor verifícalas.");
+                return;
+            }
+
+            // Simulación de éxito
+            alert(`¡Bienvenido/a, ${nombre}!\nTu cuenta ha sido creada con éxito.\nAhora puedes iniciar sesión.`);
+            
+            // Redirigir al login
+            window.location.href = '/login';
+        });
+    </script>
 </body>
 </html>

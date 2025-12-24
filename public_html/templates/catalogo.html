@@ -1,53 +1,82 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ZEBRALibra | Catálogo</title>
-    <link rel="stylesheet" href="../styles_formato.css">
-    <link rel="stylesheet" href="styles_catalogo.css">
+    
+    <link rel="stylesheet" href="/assets/css/styles_formato.css">
+    <link rel="stylesheet" href="/assets/css/styles_catalogo.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
-    <header> <!-- Cabecera principal -->
+    <header> 
         <div class="cabecera">
-            <div class="logo"><h1><a href="../index.html">ZEBRALibra</a></h1></div>
+            <div class="logo">
+                <h1><a href="/">ZEBRALibra</a></h1>
+            </div>
             <nav>
                 <ul>
-                    <li><a href="../index.html">Inicio</a></li>
-                    <li><a href="catalogo.html">Catálogo</a></li>
-                    <li><a href="../Account/login.html">Iniciar Sesión</a></li>
-                    <li><a href="../Account/register.html">Regístrate</a></li>
-                    <li><a href="user.html">Perfil</a></li>
-                    <!-- <li><a href="#">Contacto</a></li> -->
+                    <li><a href="/">Inicio</a></li>
+                    <li><a href="/catalogo" class="activo">Catálogo</a></li>
+                    <li><a href="/login">Iniciar Sesión</a></li>
+                    <li><a href="/registro">Regístrate</a></li>
+                    <li><a href="/usuario">Perfil</a></li>
                 </ul>
             </nav>
         </div>
-        <br>
     </header>
-    <br>
+
     <main>
         <div id="cabecera-main-catalogo">
-            <h1>Catálogo</h1>
-            <p><small>Aquí encontrarás una amplia selección de libros disponibles en nuestra biblioteca virtual. Explora diferentes géneros, autores y temáticas para descubrir tu próxima lectura favorita.</small></p>
+            <h1>Explora nuestra colección</h1>
+            <p><small>Descubre nuevos mundos, historias clásicas y aventuras inolvidables.</small></p>
+            
+            <div class="barra-busqueda" style="margin-top: 20px; text-align: center;">
+                <input type="text" id="buscador" placeholder="Buscar por título o autor..." style="padding: 10px; width: 60%; max-width: 400px; border-radius: 5px; border: 1px solid #ccc;">
+                <button style="padding: 10px 20px; cursor: pointer;">🔍</button>
+            </div>
         </div>
 
-        <hr style="width: 82%; margin: auto;">
+        <hr style="width: 82%; margin: 30px auto; border-color: #eee;">
 
         <section class="contenido">
             <h3>Recomendados</h3>
-            <div class="libros">
-                <div>
-                    <a href="element.html"><img src="https://www.akal.com/media/akal/images/cover-52391.jpg" alt="1984"></a>
+            
+            <div id="contenedor-libros" class="libros">
+                
+                <div class="tarjeta-libro">
+                    <a href="/detalle?id=1">
+                        <img src="https://www.akal.com/media/akal/images/cover-52391.jpg" alt="1984">
+                        <h4>1984</h4>
+                        <p>George Orwell</p>
+                    </a>
                 </div>
-                <div>
-                    <a href="element.html"><img src="https://www.valdemar.com/wp-content/uploads/CD-249.jpg" alt="mdc"></a>
+                
+                <div class="tarjeta-libro">
+                    <a href="/detalle?id=2">
+                        <img src="https://www.valdemar.com/wp-content/uploads/CD-249.jpg" alt="Moby Dick">
+                        <h4>Moby Dick</h4>
+                        <p>Herman Melville</p>
+                    </a>
                 </div>
-                <div>
-                    <a href="element.html"><img src="https://www.getabstract.com/summary-img/32302-KLTELDIO.jpg?h=M&b=0" alt="lvame80d"></a>
+                
+                <div class="tarjeta-libro">
+                    <a href="/detalle?id=3">
+                        <img src="https://www.getabstract.com/summary-img/32302-KLTELDIO.jpg?h=M&b=0" alt="La vuelta al mundo">
+                        <h4>La vuelta al mundo</h4>
+                        <p>Julio Verne</p>
+                    </a>
                 </div>
-                <div>
-                    <a href="element.html"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRjmYYC4smgR1Fw5yQEulP412kYPKpQz80mfw&s" alt="ntbydg"></a>
+
+                <div class="tarjeta-libro">
+                    <a href="/detalle?id=4">
+                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRjmYYC4smgR1Fw5yQEulP412kYPKpQz80mfw&s" alt="No tengo boca">
+                        <h4>No tengo boca...</h4>
+                        <p>Harlan Ellison</p>
+                    </a>
                 </div>
+
             </div>
         </section>
         
@@ -56,5 +85,8 @@
     <footer>
         <p>© 2025 ZEBRALibra — Biblioteca Virtual creada con pasión por la lectura.</p>
     </footer>
+
+    <script src="/assets/scripts/db.js"></script>
+    <script src="/assets/scripts/script.js"></script>
 </body>
 </html>

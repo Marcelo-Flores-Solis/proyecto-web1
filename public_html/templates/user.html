@@ -1,70 +1,96 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ZEBRALibra | Perfil del Usuario</title>
-    <link rel="stylesheet" href="styles_user.css">
-    <link rel="stylesheet" href="../styles_formato.css">
-    <script src="../Account/cuenta.js"></script>
+    
+    <link rel="stylesheet" href="/assets/css/styles_formato.css">
+    <link rel="stylesheet" href="/assets/css/styles_user.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
-    <header> <!-- Cabecera principal -->
+    <header> 
         <div class="cabecera">
             <div class="logo">
-                <h1><a href="../index.html">ZEBRALibra</a></h1>
+                <h1><a href="/">ZEBRALibra</a></h1>
             </div>
             <nav>
                 <ul>
-                    <li><a href="../index.html">Inicio</a></li>
-                    <li><a href="catalogo.html">Catálogo</a></li>
-                    <li><a href="user.html">Perfil</a></li>
-                    <!-- <li><a href="#">Contacto</a></li> -->
+                    <li><a href="/">Inicio</a></li>
+                    <li><a href="/catalogo">Catálogo</a></li>
+                    <li><a href="/usuario" class="activo">Perfil</a></li>
                 </ul>
             </nav>
         </div>
         <br>
     </header>
     
-    <main> <!-- Contenido principal -->
+    <main>
         <div class="principales">
-            <h2>¡Hola, ...!</h2>
+            <h2 id="saludo-usuario">¡Hola!</h2>
             <br>
+            
             <section class="datos">
                 <h4>Datos personales</h4>
-                <ul>
-                    <li><b>Nombre: </b><span id="nombreCompleto"></span></li> <!-- Se obtendrá del login -->
-                    <li><b>Edad: </b><span id="edad"></span></li> <!-- Se obtendrá del login -->
-                    <li><b>Sexo: </b><span id="sexo"></span></li> <!-- Se obtendrá del login -->
-                    <li><b>Correo electrónico: </b><span id="gmail"></span></li> <!-- Se obtendrá del login -->
-                    <li><b>Preferencias: </b>---</li> <!-- Se obtendrá del login -->
+                <ul style="list-style: none; padding-left: 0;">
+                    <li><b>Nombre: </b><span id="perfil-nombre">Cargando...</span></li>
+                    <li><b>Edad: </b><span id="perfil-edad">--</span></li>
+                    <li><b>Correo: </b><span id="perfil-email">Cargando...</span></li>
+                    <li><b>Rol: </b><span id="perfil-rol">Lector</span></li>
                 </ul>
             </section>
         </div>
+
         <br><hr><br>
-        <div class="libros">
+
+        <div class="libros-seccion">
             <section class="listlibros">
-                <h4>Lista de libros</h4>
-                <ul>
-                    <li>...</li> <!-- Se pondrán los libros conforme se vayan agregando -->
+                <h4>📚 Mis Libros Guardados</h4>
+                <ul id="lista-libros">
+                    <li>No tienes libros guardados aún.</li>
                 </ul>
             </section>
-            <section class="favoritos"> <!-- De acuerdo a lo que elija el usuario (con el botón de corazón) -->
-                <h4>Favoritos</h4>
-                <ul>
-                    <li>...</li> <!-- Se contarán los seleccionados como favoritos -->
+
+            <section class="favoritos"> 
+                <h4>❤️ Favoritos</h4>
+                <ul id="lista-favoritos">
+                    <li>No tienes favoritos aún.</li>
                 </ul>
             </section>
         </div>
+
         <br>
-        <section class="cerrarsesion">
-            <h4><a href="#">Cerrar sesión</a></h4>
+        
+        <section class="cerrarsesion" style="text-align: center; margin-top: 30px;">
+            <a href="/login" style="color: red; text-decoration: none; font-weight: bold; border: 1px solid red; padding: 10px 20px; border-radius: 5px;">
+                Cerrar sesión
+            </a>
         </section>
     </main>
-    <br>
-
+    
     <footer>
         <p>© 2025 ZEBRALibra — Biblioteca Virtual creada con pasión por la lectura.</p>
     </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // SIMULAMOS DATOS DE UN USUARIO CONECTADO
+            // En el futuro, esto vendrá de la base de datos o LocalStorage
+            const usuarioSimulado = {
+                nombre: "Administrador",
+                email: "admin@zebralibra.com",
+                edad: 25,
+                rol: "Bibliotecario"
+            };
+
+            // Rellenamos el HTML con los datos
+            document.getElementById('saludo-usuario').innerText = `¡Hola, ${usuarioSimulado.nombre}!`;
+            document.getElementById('perfil-nombre').innerText = usuarioSimulado.nombre;
+            document.getElementById('perfil-email').innerText = usuarioSimulado.email;
+            document.getElementById('perfil-edad').innerText = `${usuarioSimulado.edad} años`;
+            document.getElementById('perfil-rol').innerText = usuarioSimulado.rol;
+        });
+    </script>
 </body>
 </html>
