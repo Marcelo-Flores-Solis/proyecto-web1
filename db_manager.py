@@ -162,3 +162,21 @@ def verificar_usuario(email, password):
             if 'cursor' in locals(): cursor.close()
             conn.close()
     return usuario
+
+# --- ADMIN: AGREGAR LIBRO ---
+def crear_libro(titulo, autor, img, sinopsis):
+    conn = crear_conexion()
+    if conn and conn.is_connected():
+        try:
+            cursor = conn.cursor()
+            # disponible=1 por defecto
+            query = "INSERT INTO libros (titulo, autor, img, sinopsis, disponible) VALUES (%s, %s, %s, %s, 1)"
+            cursor.execute(query, (titulo, autor, img, sinopsis))
+            conn.commit()
+            return True
+        except Error as e:
+            print(f"Error creando libro: {e}")
+            return False
+        finally:
+            conn.close()
+    return False

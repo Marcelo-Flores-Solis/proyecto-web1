@@ -174,6 +174,42 @@ document.addEventListener('DOMContentLoaded', () => {
     // ==========================================
     // 5. CATÁLOGO
     // ==========================================
+    // ==========================================
+    // 5. CATÁLOGO Y BUSCADOR
+    // ==========================================
+    
+    // --- LÓGICA DE ADMIN: MOSTRAR PANEL ---
+    const panelAdmin = document.getElementById('panel-admin');
+    const formAgregarLibro = document.getElementById('form-agregar-libro');
+
+    // Solo mostramos el panel si hay usuario Y es admin (1)
+    if (panelAdmin && usuario && usuario.es_admin == 1) {
+        panelAdmin.style.display = 'block'; // ¡Aparece el panel!
+        
+        // Lógica para enviar el nuevo libro
+        formAgregarLibro.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const titulo = document.getElementById('nuevo-titulo').value;
+            const autor = document.getElementById('nuevo-autor').value;
+            const img = document.getElementById('nuevo-img').value;
+            const sinopsis = document.getElementById('nuevo-sinopsis').value;
+
+            fetch('/api/admin/agregar_libro', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({ titulo, autor, img, sinopsis })
+            }).then(res => {
+                if(res.ok) {
+                    alert("📚 Libro agregado correctamente");
+                    location.reload(); // Recargar para ver el libro nuevo
+                } else {
+                    alert("Error al guardar");
+                }
+            });
+        });
+    }
+
+    // ... (Aquí sigue el resto de tu código de mostrarLibros) ...
     const contenedorLibros = document.getElementById('contenedor-libros');
     const inputBuscador = document.getElementById('buscador');
     let librosMemoria = []; 

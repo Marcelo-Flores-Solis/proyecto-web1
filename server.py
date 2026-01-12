@@ -124,6 +124,17 @@ class BibliotecaHandler(http.server.BaseHTTPRequestHandler):
                     })
                 else:
                     self.send_error(401, "Credenciales incorrectas")
+            elif self.path == '/api/admin/agregar_libro':
+                # Validamos que lleguen todos los datos
+                titulo = datos.get('titulo')
+                autor = datos.get('autor')
+                img = datos.get('img')
+                sinopsis = datos.get('sinopsis')
+
+                if db.crear_libro(titulo, autor, img, sinopsis):
+                    self.responder_json({"mensaje": "Libro creado con éxito"})
+                else:
+                    self.send_error(500, "No se pudo guardar el libro")
 
             elif self.path == '/api/prestar':
                 # Ahora acepta id_usuario si lo mandas, o solo id_libro
