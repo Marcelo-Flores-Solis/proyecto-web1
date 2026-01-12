@@ -5,19 +5,23 @@ import mimetypes
 import json
 from urllib.parse import parse_qs, urlparse
 
-# --- IMPORTACIÓN DIRECTA ---
+# --- IMPORTACIÓN DE BASE DE DATOS (PROTEGIDA) ---
 try:
     import db_manager as db
-    print("Base de datos cargada correctamente.")
+    print("✅ Base de datos cargada correctamente.")
 except ImportError as e:
-    print(f"ERROR CRÍTICO: {e}")
+    print(f"⚠️ ERROR CRÍTICO AL CARGAR DB: {e}")
     db = None
 
-# CONFIGURACIÓN
-PORT = 8000
+# --- CONFIGURACIÓN PARA RAILWAY Y LOCAL ---
+# 1. El puerto debe leerse del entorno (Environment Variable)
+PORT = int(os.environ.get("PORT", 8000))
+
+# 2. Rutas Absolutas (Para evitar errores de "Archivo no encontrado")
 ROOT_DIR = os.path.dirname(os.path.abspath(__file__))
-PUBLIC_DIR = os.path.join(ROOT_DIR, 'public_html')
-TEMPLATES_DIR = os.path.join(PUBLIC_DIR, 'templates')
+# Asumimos que las carpetas 'templates' y 'assets' están en la raíz junto a este archivo
+TEMPLATES_DIR = os.path.join(ROOT_DIR, 'templates')
+ASSETS_DIR = os.path.join(ROOT_DIR, 'assets')
 
 class BibliotecaHandler(http.server.BaseHTTPRequestHandler):
 
@@ -26,7 +30,9 @@ class BibliotecaHandler(http.server.BaseHTTPRequestHandler):
         path = parsed_path.path.rstrip('/')
         if path == '': path = '/'
 
+        # Mapa de rutas a archivos HTML
         rutas_templates = {
+            '/': 'index.html',           # La portada ahora se busca en templates
             '/catalogo': 'catalogo.html',
             '/login': 'login.html',
             '/registro': 'register.html',
@@ -35,93 +41,128 @@ class BibliotecaHandler(http.server.BaseHTTPRequestHandler):
         }
 
         try:
-            # API: LISTA LIBROS
+            # --- A. API: DATOS JSON ---
             if path == '/api/libros':
-                if db:
-                    self.responder_json(db.obtener_todos_los_libros())
-                else:
-                    self.send_error(500, "Sin BD")
+                if db: self.responder_json(db.obtener_todos_los_libros())
+                else: self.responder_json([], 500)
                 return
 
-            # API: UN LIBRO
+            if path == '/api/buscar': # Agregado para la búsqueda
+                query_params = parse_qs(parsed_path.query)
+                termino = query_params.get('q', [''])[0]
+                if db: self.responder_json(db.buscar_libros(termino))
+                else: self.responder_json([])
+                return
+
             if path == '/api/libro':
                 query_params = parse_qs(parsed_path.query)
                 id_libro = query_params.get('id', [None])[0]
                 if db and id_libro:
                     libro = db.obtener_libro_por_id(id_libro)
                     if libro: self.responder_json(libro)
-                    else: self.send_error(404)
+                    else: self.send_error(404, "Libro no encontrado")
+                else:
+                    self.send_error(500, "Error DB o ID faltante")
                 return
 
-            # ARCHIVOS ESTÁTICOS Y TEMPLATES
-            if path == '/':
-                self.servir_archivo(os.path.join(ROOT_DIR, 'index.html'))
-            elif path.startswith('/assets/'):
-                self.servir_archivo(os.path.join(PUBLIC_DIR, path.lstrip('/')))
-            elif path in rutas_templates:
-                self.servir_archivo(os.path.join(TEMPLATES_DIR, rutas_templates[path]))
+            # --- B. ARCHIVOS ESTÁTICOS (CSS, JS, IMAGENES) ---
+            if path.startswith('/assets/'):
+                # Limpiamos la ruta para evitar trucos de hackers (Directory Traversal)
+                ruta_limpia = path.lstrip('/')
+                ruta_absoluta = os.path.join(ROOT_DIR, ruta_limpia)
+                self.servir_archivo(ruta_absoluta)
+                return
+
+            # --- C. PÁGINAS HTML (TEMPLATES) ---
+            if path in rutas_templates:
+                archivo = os.path.join(TEMPLATES_DIR, rutas_templates[path])
+                self.servir_archivo(archivo, 'text/html')
             else:
-                self.send_error(404, "No encontrado")
+                self.send_error(404, "Pagina no encontrada")
 
         except Exception as e:
-            print(f"Error GET: {e}")
+            print(f"🔥 Error GET: {e}")
             self.send_error(500)
 
     def do_POST(self):
         try:
-            # 1. Leer el tamaño de los datos enviados
+            # Protección: Si no hay DB, no intentamos procesar nada
+            if not db:
+                self.responder_json({"error": "Base de datos no disponible"}, 500)
+                return
+
             content_length = int(self.headers['Content-Length'])
             post_data = self.rfile.read(content_length)
             datos = json.loads(post_data.decode('utf-8'))
 
-            # 2. Rutas POST
             if self.path == '/api/registro':
-                exito = db.guardar_usuario(datos['nombre'], datos['email'], datos['password'])
+                exito = db.guardar_usuario(datos.get('nombre'), datos.get('email'), datos.get('password'))
                 if exito: self.responder_json({"mensaje": "Usuario creado"}, 201)
-                else: self.send_error(400, "Error al crear usuario (quizas el email ya existe)")
+                else: self.send_error(400, "Error: Email duplicado o datos invalidos")
             
             elif self.path == '/api/login':
-                usuario = db.verificar_usuario(datos['email'], datos['password'])
+                usuario = db.verificar_usuario(datos.get('email'), datos.get('password'))
                 if usuario:
-                    # Devolvemos los datos del usuario (sin la contraseña)
-                    self.responder_json({"id": usuario['id'], "nombre": usuario['nombre'], "email": usuario['email']})
+                    self.responder_json(usuario)
                 else:
                     self.send_error(401, "Credenciales incorrectas")
 
             elif self.path == '/api/prestar':
-                id_libro = datos.get('id_libro')
-                if db.prestar_libro(id_libro):
+                # Ahora acepta id_usuario si lo mandas, o solo id_libro
+                if db.prestar_libro(datos.get('id_libro'), datos.get('id_usuario')):
                     self.responder_json({"mensaje": "Libro prestado con exito"})
                 else:
                     self.send_error(500, "Error al prestar libro")
+            
+            elif self.path == '/api/devolver':
+                if db.devolver_libro(datos.get('id_libro'), datos.get('id_usuario')):
+                    self.responder_json({"mensaje": "Libro devuelto"})
+                else:
+                    self.send_error(500, "Error al devolver")
             
             else:
                 self.send_error(404, "Ruta POST desconocida")
 
         except Exception as e:
-            print(f"Error POST: {e}")
+            print(f"🔥 Error POST: {e}")
             self.send_error(500, f"Error interno: {e}")
+
+    # --- FUNCIONES AUXILIARES ---
 
     def responder_json(self, data, status=200):
         self.send_response(status)
         self.send_header('Content-type', 'application/json; charset=utf-8')
+        self.send_header('Access-Control-Allow-Origin', '*') # Importante para evitar bloqueos
         self.end_headers()
         self.wfile.write(json.dumps(data, default=str).encode('utf-8'))
 
-    def servir_archivo(self, path):
-        try:
-            with open(path, 'rb') as f:
-                content = f.read()
-            mime_type, _ = mimetypes.guess_type(path)
-            self.send_response(200)
-            if mime_type: self.send_header('Content-type', mime_type)
-            self.end_headers()
-            self.wfile.write(content)
-        except FileNotFoundError:
+    def servir_archivo(self, path, mime_force=None):
+        if os.path.exists(path):
+            try:
+                # Si forzamos el mime (ej: html), lo usamos. Si no, adivinamos.
+                mime_type = mime_force or mimetypes.guess_type(path)[0] or 'application/octet-stream'
+                
+                with open(path, 'rb') as f:
+                    content = f.read()
+                    self.send_response(200)
+                    self.send_header('Content-type', mime_type)
+                    self.end_headers()
+                    self.wfile.write(content)
+            except Exception as e:
+                print(f"Error leyendo archivo {path}: {e}")
+                self.send_error(500)
+        else:
+            print(f"❌ Archivo no encontrado: {path}")
             self.send_error(404)
 
+# --- SERVIDOR MULTIHILO (Vital para producción) ---
+class ThreadedHTTPServer(socketserver.ThreadingMixIn, http.server.HTTPServer):
+    pass
+
 if __name__ == "__main__":
-    os.chdir(ROOT_DIR)
-    print(f"Servidor corriendo en http://localhost:{PORT}")
-    with socketserver.TCPServer(("", PORT), BibliotecaHandler) as httpd:
-        httpd.serve_forever()
+    # Usamos 0.0.0.0 para que Railway pueda acceder
+    print(f"🚀 Servidor corriendo en http://0.0.0.0:{PORT}")
+    print(f"📂 Sirviendo templates desde: {TEMPLATES_DIR}")
+    
+    server = ThreadedHTTPServer(("0.0.0.0", PORT), BibliotecaHandler)
+    server.serve_forever()
