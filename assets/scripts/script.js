@@ -304,3 +304,32 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 });
+
+if (contenedorLibros) { 
+        fetch('/api/libros')
+            .then(r => {
+                // VERIFICACIÓN DE ERRORES DEL SERVIDOR
+                if (!r.ok) throw new Error(`Error del servidor: ${r.status}`);
+                return r.json();
+            })
+            .then(data => { 
+                librosMemoria = data; 
+                mostrarLibros(data); 
+            })
+            .catch(err => {
+                console.error(err);
+                // ESTO HACE QUE EL ERROR APAREZCA EN PANTALLA
+                contenedorLibros.innerHTML = `<div style="text-align:center; padding:20px;">
+                    <h3 style="color:red;">⚠️ Error cargando libros</h3>
+                    <p>${err.message}</p>
+                    <small>Revisa la consola (F12) para más detalles.</small>
+                </div>`;
+            });
+
+        if (inputBuscador) {
+            inputBuscador.addEventListener('input', (e) => {
+                const txt = e.target.value.toLowerCase();
+                mostrarLibros(librosMemoria.filter(l => l.titulo.toLowerCase().includes(txt) || l.autor.toLowerCase().includes(txt)));
+            });
+        }
+    }
