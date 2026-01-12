@@ -74,47 +74,57 @@ def obtener_libro_por_id(id_libro):
 
 # --- OPERACIONES (Prestar y Devolver) ---
 
-def prestar_libro(id_libro, id_usuario=None):
-    """
-    Marca libro como NO disponible.
-    Acepta id_usuario para compatibilidad con server.py
-    """
+# 1. Nueva función para VER qué libros tiene un usuario
+def obtener_libros_por_usuario(id_usuario):
+    conn = crear_conexion()
+    lista = []
+    if conn and conn.is_connected():
+        try:
+            cursor = conn.cursor(dictionary=True)
+            # Buscamos libros donde el usuario_id_prestamo sea el del usuario actual
+            query = "SELECT * FROM libros WHERE usuario_id_prestamo = %s"
+            cursor.execute(query, (id_usuario,))
+            lista = cursor.fetchall()
+        except Error as e:
+            print(f"Error obteniendo préstamos: {e}")
+        finally:
+            if 'cursor' in locals(): cursor.close()
+            conn.close()
+    return lista
+
+# 2. Actualizar PRESTAR (Ahora guarda quién se lo llevó)
+def prestar_libro(id_libro, id_usuario):
     conn = crear_conexion()
     exito = False
     if conn and conn.is_connected():
         try:
             cursor = conn.cursor()
-            # 1. Actualizamos estado
-            query = "UPDATE libros SET disponible = 0 WHERE id = %s"
-            cursor.execute(query, (id_libro,))
-            
-            # (Opcional) Si tuvieras tabla de préstamos, aquí harías el INSERT
-            # if id_usuario: ...
-
+            # Guardamos el ID del usuario y ponemos disponible en 0
+            query = "UPDATE libros SET disponible = 0, usuario_id_prestamo = %s WHERE id = %s"
+            cursor.execute(query, (id_usuario, id_libro))
             conn.commit()
             exito = True
         except Error as e:
             print(f"Error prestando libro: {e}")
         finally:
-            if 'cursor' in locals(): cursor.close()
             conn.close()
     return exito
 
+# 3. Actualizar DEVOLVER (Borra al usuario del libro)
 def devolver_libro(id_libro, id_usuario=None):
-    """Marca libro como DISPONIBLE (1)"""
     conn = crear_conexion()
     exito = False
     if conn and conn.is_connected():
         try:
             cursor = conn.cursor()
-            query = "UPDATE libros SET disponible = 1 WHERE id = %s"
+            # Ponemos disponible en 1 y borramos el usuario (NULL)
+            query = "UPDATE libros SET disponible = 1, usuario_id_prestamo = NULL WHERE id = %s"
             cursor.execute(query, (id_libro,))
             conn.commit()
             exito = True
         except Error as e:
             print(f"Error devolviendo libro: {e}")
         finally:
-            if 'cursor' in locals(): cursor.close()
             conn.close()
     return exito
 

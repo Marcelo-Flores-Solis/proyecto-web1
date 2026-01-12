@@ -64,7 +64,18 @@ class BibliotecaHandler(http.server.BaseHTTPRequestHandler):
                 else:
                     self.send_error(500, "Error DB o ID faltante")
                 return
+            if path == '/api/mis_prestamos':
+                query_params = parse_qs(parsed_path.query)
+                id_usuario = query_params.get('id_usuario', [None])[0]
+                
+                if db and id_usuario:
+                    prestamos = db.obtener_libros_por_usuario(id_usuario)
+                    self.responder_json(prestamos)
+                else:
+                    self.responder_json([]) # Devuelve lista vacía si no hay ID
+                return
 
+            # ... resto del código ...
             # --- B. ARCHIVOS ESTÁTICOS (CSS, JS, IMAGENES) ---
             if path.startswith('/assets/'):
                 # Limpiamos la ruta para evitar trucos de hackers (Directory Traversal)
