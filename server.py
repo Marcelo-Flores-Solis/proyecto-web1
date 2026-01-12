@@ -74,6 +74,7 @@ class BibliotecaHandler(http.server.BaseHTTPRequestHandler):
                 else:
                     self.responder_json([]) # Devuelve lista vacía si no hay ID
                 return
+            
 
             # ... resto del código ...
             # --- B. ARCHIVOS ESTÁTICOS (CSS, JS, IMAGENES) ---
@@ -114,7 +115,13 @@ class BibliotecaHandler(http.server.BaseHTTPRequestHandler):
             elif self.path == '/api/login':
                 usuario = db.verificar_usuario(datos.get('email'), datos.get('password'))
                 if usuario:
-                    self.responder_json(usuario)
+                    # AQUI ESTÁ EL CAMBIO: Enviamos también 'es_admin'
+                    self.responder_json({
+                        "id": usuario['id'],
+                        "nombre": usuario['nombre'],
+                        "email": usuario['email'],
+                        "es_admin": usuario['es_admin'] # <--- NUEVO
+                    })
                 else:
                     self.send_error(401, "Credenciales incorrectas")
 

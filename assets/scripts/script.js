@@ -9,12 +9,21 @@ document.addEventListener('DOMContentLoaded', () => {
     if (usuarioGuardado) {
         try {
             usuario = JSON.parse(usuarioGuardado);
-            console.log("✅ Usuario activo:", usuario.nombre);
+            console.log("✅ Usuario activo:", usuario.nombre, "| Admin:", usuario.es_admin);
             
-            // Actualizar navbar
+            // Actualizar el menú de navegación
             const linkLogin = document.querySelector('a[href="/login"]');
             if (linkLogin) {
-                linkLogin.innerText = `Hola, ${usuario.nombre}`;
+                // Si es ADMIN (1), le ponemos una corona o texto especial
+                if (usuario.es_admin == 1) {
+                    linkLogin.innerHTML = `👑 Admin: ${usuario.nombre}`;
+                    linkLogin.style.color = "#ffd700"; // Dorado para el jefe
+                    
+                    // (Opcional) Aquí podrías mostrar botones ocultos de "Agregar Libro"
+                    // document.getElementById('btn-agregar-libro').style.display = 'block';
+                } else {
+                    linkLogin.innerText = `Hola, ${usuario.nombre}`;
+                }
                 linkLogin.href = "/usuario";
             }
         } catch (e) {
