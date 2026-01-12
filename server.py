@@ -119,16 +119,16 @@ class BibliotecaHandler(http.server.BaseHTTPRequestHandler):
                 else:
                     self.send_error(500)
 
-            # 5. ADMIN: Agregar Libro (CON CATEGORÍA)
+           
+            # 5. ADMIN: Agregar Libro
             elif self.path == '/api/admin/agregar_libro':
                 titulo = datos.get('titulo')
                 autor = datos.get('autor')
-                categoria = datos.get('categoria') # <--- NUEVO
+                categoria = datos.get('categoria')
                 img = datos.get('img')
-                # Nota: Recibimos 'sinopsis' del formulario pero lo mandamos como 'sipnosis' a la BD
-                sipnosis = datos.get('sinopsis')   
+                sinopsis = datos.get('sinopsis') # <--- Con 'n'
 
-                if db.crear_libro(titulo, autor, categoria, img, sipnosis):
+                if db.crear_libro(titulo, autor, categoria, img, sinopsis):
                     self.responder_json({"mensaje": "Libro creado"})
                 else:
                     self.send_error(500, "Error DB")

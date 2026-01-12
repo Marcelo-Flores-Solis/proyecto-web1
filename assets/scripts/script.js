@@ -194,12 +194,12 @@ document.addEventListener('DOMContentLoaded', () => {
             const autor = document.getElementById('nuevo-autor').value;
             const categoria = document.getElementById('nuevo-categoria').value; // <--- NUEVO
             const img = document.getElementById('nuevo-img').value;
-            const sinopsis = document.getElementById('nuevo-sinopsis').value;
+            const sinopsis = document.getElementById('nuevo-sinopsis').value; // Con 'n'
 
             fetch('/api/admin/agregar_libro', {
                 method: 'POST',
                 headers: {'Content-Type': 'application/json'},
-                // Enviamos todo, incluyendo la categoría
+                // Enviamos 'sinopsis' correctamente
                 body: JSON.stringify({ titulo, autor, categoria, img, sinopsis })
             }).then(res => {
                 if(res.ok) {
