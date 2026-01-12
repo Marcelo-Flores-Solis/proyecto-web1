@@ -164,18 +164,23 @@ def verificar_usuario(email, password):
     return usuario
 
 # --- ADMIN: AGREGAR LIBRO ---
-def crear_libro(titulo, autor, img, sinopsis):
+# --- ADMIN: AGREGAR LIBRO (CORREGIDO) ---
+def crear_libro(titulo, autor, categoria, img, sipnosis):
     conn = crear_conexion()
     if conn and conn.is_connected():
         try:
             cursor = conn.cursor()
-            # disponible=1 por defecto
-            query = "INSERT INTO libros (titulo, autor, img, sinopsis, disponible) VALUES (%s, %s, %s, %s, 1)"
-            cursor.execute(query, (titulo, autor, img, sinopsis))
+            # Fíjate que ahora incluimos 'categoria' y usamos 'sipnosis' (con p)
+            query = """
+                INSERT INTO libros 
+                (titulo, autor, categoria, img, sipnosis, disponible) 
+                VALUES (%s, %s, %s, %s, %s, 1)
+            """
+            cursor.execute(query, (titulo, autor, categoria, img, sipnosis))
             conn.commit()
             return True
         except Error as e:
-            print(f"Error creando libro: {e}")
+            print(f"❌ Error SQL al crear libro: {e}")
             return False
         finally:
             conn.close()

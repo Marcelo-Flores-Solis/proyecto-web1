@@ -16,7 +16,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (linkLogin) {
                 // Si es ADMIN (1), le ponemos una corona o texto especial
                 if (usuario.es_admin == 1) {
-                    linkLogin.innerHTML = `👑 Admin: ${usuario.nombre}`;
+                    linkLogin.innerHTML = `Admin: ${usuario.nombre}`;
                     linkLogin.style.color = "#ffd700"; // Dorado para el jefe
                     
                     // (Opcional) Aquí podrías mostrar botones ocultos de "Agregar Libro"
@@ -187,23 +187,26 @@ document.addEventListener('DOMContentLoaded', () => {
         panelAdmin.style.display = 'block'; // ¡Aparece el panel!
         
         // Lógica para enviar el nuevo libro
+        // Lógica para enviar el nuevo libro
         formAgregarLibro.addEventListener('submit', (e) => {
             e.preventDefault();
             const titulo = document.getElementById('nuevo-titulo').value;
             const autor = document.getElementById('nuevo-autor').value;
+            const categoria = document.getElementById('nuevo-categoria').value; // <--- NUEVO
             const img = document.getElementById('nuevo-img').value;
             const sinopsis = document.getElementById('nuevo-sinopsis').value;
 
             fetch('/api/admin/agregar_libro', {
                 method: 'POST',
                 headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify({ titulo, autor, img, sinopsis })
+                // Enviamos todo, incluyendo la categoría
+                body: JSON.stringify({ titulo, autor, categoria, img, sinopsis })
             }).then(res => {
                 if(res.ok) {
                     alert("📚 Libro agregado correctamente");
-                    location.reload(); // Recargar para ver el libro nuevo
+                    location.reload();
                 } else {
-                    alert("Error al guardar");
+                    alert("Error al guardar (Revisa consola del servidor)");
                 }
             });
         });
