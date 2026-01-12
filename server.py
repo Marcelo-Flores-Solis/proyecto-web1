@@ -5,15 +5,15 @@ import mimetypes
 import json
 from urllib.parse import parse_qs, urlparse
 
-# --- CARGA SEGURA DE DB ---
+# DB
 try:
     import db_manager as db
-    print("✅ Base de datos cargada correctamente.")
+    print("Base de datos cargada.")
 except ImportError as e:
-    print(f"⚠️ ERROR CRÍTICO AL CARGAR DB: {e}")
+    print(f"Error al cargar DB: {e}")
     db = None
 
-# --- CONFIGURACIÓN ---
+# Config
 PORT = int(os.environ.get("PORT", 8000))
 ROOT_DIR = os.path.dirname(os.path.abspath(__file__))
 TEMPLATES_DIR = os.path.join(ROOT_DIR, 'templates')
@@ -36,7 +36,7 @@ class BibliotecaHandler(http.server.BaseHTTPRequestHandler):
         }
 
         try:
-            # --- API GET ---
+            # API GET
             if path == '/api/libros':
                 if db: self.responder_json(db.obtener_todos_los_libros())
                 else: self.responder_json([], 500)
@@ -60,14 +60,14 @@ class BibliotecaHandler(http.server.BaseHTTPRequestHandler):
                 else: self.responder_json([])
                 return
 
-            # --- ASSETS ---
+            # Assets
             if path.startswith('/assets/'):
                 path_limpio = path.lstrip('/')
                 archivo = os.path.join(ROOT_DIR, path_limpio)
                 self.servir_archivo(archivo)
                 return
 
-            # --- HTML ---
+            # HTML
             if path in rutas_html:
                 archivo = os.path.join(TEMPLATES_DIR, rutas_html[path])
                 self.servir_archivo(archivo, 'text/html')
@@ -75,10 +75,11 @@ class BibliotecaHandler(http.server.BaseHTTPRequestHandler):
                 self.send_error(404, "Pagina no encontrada")
 
         except Exception as e:
-            print(f"🔥 Error GET: {e}")
+            print(f"Error GET: {e}")
             self.send_error(500)
 
     def do_POST(self):
+        # POST
         try:
             content_len = int(self.headers.get('Content-Length', 0))
             post_body = self.rfile.read(content_len)
@@ -88,9 +89,7 @@ class BibliotecaHandler(http.server.BaseHTTPRequestHandler):
                 self.responder_json({"error": "Sin DB"}, 500)
                 return
 
-            # --- RUTAS POST ---
-            
-            # 1. Login (Con admin check)
+            # Login
             if self.path == '/api/login':
                 user = db.verificar_usuario(datos.get('email'), datos.get('password'))
                 if user:
@@ -98,29 +97,28 @@ class BibliotecaHandler(http.server.BaseHTTPRequestHandler):
                 else:
                     self.send_error(401)
 
-            # 2. Registro
+            # Registro
             elif self.path == '/api/registro':
                 if db.guardar_usuario(datos.get('nombre'), datos.get('email'), datos.get('password')):
                     self.responder_json({"ok": True}, 201)
                 else:
                     self.send_error(400)
 
-            # 3. Prestar
+            # Prestar
             elif self.path == '/api/prestar':
                 if db.prestar_libro(datos.get('id_libro'), datos.get('id_usuario')):
                     self.responder_json({"ok": True})
                 else:
                     self.send_error(500)
 
-            # 4. Devolver
+            # Devolver
             elif self.path == '/api/devolver':
                 if db.devolver_libro(datos.get('id_libro'), datos.get('id_usuario')):
                     self.responder_json({"ok": True})
                 else:
                     self.send_error(500)
 
-           
-            # 5. ADMIN: Agregar Libro
+            # Admin
             elif self.path == '/api/admin/agregar_libro':
                 titulo = datos.get('titulo')
                 autor = datos.get('autor')
@@ -137,7 +135,7 @@ class BibliotecaHandler(http.server.BaseHTTPRequestHandler):
                 self.send_error(404, "Ruta POST desconocida")
 
         except Exception as e:
-            print(f"🔥 Error POST: {e}")
+            print(f"Error POST: {e}")
             self.send_error(500)
 
     def responder_json(self, data, status=200):
@@ -162,6 +160,6 @@ class ThreadedHTTPServer(socketserver.ThreadingMixIn, http.server.HTTPServer):
     pass
 
 if __name__ == '__main__':
-    print(f"🚀 Iniciando en puerto {PORT}...")
+    print(f"Iniciando en puerto {PORT}...")
     server = ThreadedHTTPServer(('0.0.0.0', PORT), BibliotecaHandler)
     server.serve_forever()

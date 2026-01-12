@@ -3,14 +3,9 @@ from mysql.connector import Error
 import os
 
 def crear_conexion():
-    """
-    Conecta a la base de datos.
-    Detecta automáticamente si estamos en Railway o en Localhost.
-    """
+    # Conexion
     try:
         connection = mysql.connector.connect(
-            # Si existen variables de entorno (Railway), las usa.
-            # Si no (Tu PC), usa los valores por defecto que pusiste.
             host=os.getenv('MYSQLHOST', 'localhost'),
             user=os.getenv('MYSQLUSER', 'root'),
             password=os.getenv('MYSQLPASSWORD', ''),
@@ -19,11 +14,10 @@ def crear_conexion():
         )
         return connection
     except Error as e:
-        print(f"❌ Error al conectar a MySQL: {e}")
+        print(f"Error al conectar a MySQL: {e}")
         return None
 
-# --- LIBROS ---
-
+# Libros
 def obtener_todos_los_libros():
     conn = crear_conexion()
     lista = []
@@ -40,7 +34,7 @@ def obtener_todos_los_libros():
     return lista
 
 def buscar_libros(termino):
-    """Busca libros por título o autor (Necesario para la barra de búsqueda)"""
+    # Buscar
     conn = crear_conexion()
     lista = []
     if conn and conn.is_connected():
@@ -72,16 +66,14 @@ def obtener_libro_por_id(id_libro):
             conn.close()
     return libro
 
-# --- OPERACIONES (Prestar y Devolver) ---
-
-# 1. Nueva función para VER qué libros tiene un usuario
+# Operaciones
 def obtener_libros_por_usuario(id_usuario):
+    # Por usuario
     conn = crear_conexion()
     lista = []
     if conn and conn.is_connected():
         try:
             cursor = conn.cursor(dictionary=True)
-            # Buscamos libros donde el usuario_id_prestamo sea el del usuario actual
             query = "SELECT * FROM libros WHERE usuario_id_prestamo = %s"
             cursor.execute(query, (id_usuario,))
             lista = cursor.fetchall()
@@ -92,14 +84,13 @@ def obtener_libros_por_usuario(id_usuario):
             conn.close()
     return lista
 
-# 2. Actualizar PRESTAR (Ahora guarda quién se lo llevó)
 def prestar_libro(id_libro, id_usuario):
+    # Prestar
     conn = crear_conexion()
     exito = False
     if conn and conn.is_connected():
         try:
             cursor = conn.cursor()
-            # Guardamos el ID del usuario y ponemos disponible en 0
             query = "UPDATE libros SET disponible = 0, usuario_id_prestamo = %s WHERE id = %s"
             cursor.execute(query, (id_usuario, id_libro))
             conn.commit()
@@ -110,14 +101,13 @@ def prestar_libro(id_libro, id_usuario):
             conn.close()
     return exito
 
-# 3. Actualizar DEVOLVER (Borra al usuario del libro)
 def devolver_libro(id_libro, id_usuario=None):
+    # Devolver
     conn = crear_conexion()
     exito = False
     if conn and conn.is_connected():
         try:
             cursor = conn.cursor()
-            # Ponemos disponible en 1 y borramos el usuario (NULL)
             query = "UPDATE libros SET disponible = 1, usuario_id_prestamo = NULL WHERE id = %s"
             cursor.execute(query, (id_libro,))
             conn.commit()
@@ -128,9 +118,9 @@ def devolver_libro(id_libro, id_usuario=None):
             conn.close()
     return exito
 
-# --- USUARIOS ---
-
+# Usuarios
 def guardar_usuario(nombre, email, password):
+    # Guardar
     conn = crear_conexion()
     if conn and conn.is_connected():
         try:
@@ -148,6 +138,7 @@ def guardar_usuario(nombre, email, password):
     return False
 
 def verificar_usuario(email, password):
+    # Verificar
     conn = crear_conexion()
     usuario = None
     if conn and conn.is_connected():
@@ -164,16 +155,14 @@ def verificar_usuario(email, password):
     return usuario
 
 
-# --- ADMIN: AGREGAR LIBRO ---
-# --- ADMIN: AGREGAR LIBRO (CORREGIDO) ---
+# Admin
 def crear_libro(titulo, autor, categoria, img, sinopsis):
+    # SQL
     conn = crear_conexion()
     if conn and conn.is_connected():
         try:
             cursor = conn.cursor()
             
-            # --- CORRECCIÓN AQUÍ ---
-            # Fíjate que dice 'sinopsis' (con n) en la lista de columnas
             query = """
                 INSERT INTO libros 
                 (titulo, autor, categoria, img, sinopsis, disponible) 
@@ -184,7 +173,7 @@ def crear_libro(titulo, autor, categoria, img, sinopsis):
             conn.commit()
             return True
         except Error as e:
-            print(f"❌ Error SQL al crear libro: {e}")
+            print(f"Error SQL al crear libro: {e}")
             return False
         finally:
             conn.close()

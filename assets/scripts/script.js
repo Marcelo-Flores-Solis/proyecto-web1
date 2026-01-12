@@ -1,182 +1,167 @@
 document.addEventListener('DOMContentLoaded', () => {
+	// Sesión
+	const usuarioGuardado = localStorage.getItem('usuario_zebra');
+	let usuario = null;
 
-    // ==========================================
-    // 1. GESTIÓN DE SESIÓN
-    // ==========================================
-    const usuarioGuardado = localStorage.getItem('usuario_zebra');
-    let usuario = null;
+	if (usuarioGuardado) {
+		try {
+			usuario = JSON.parse(usuarioGuardado);
+			console.log("Usuario activo:", usuario.nombre, "| Admin:", usuario.es_admin);
+			
+			// Menú
+			const linkLogin = document.querySelector('a[href="/login"]');
+			if (linkLogin) {
+				// Admin
+				if (usuario.es_admin == 1) {
+					linkLogin.innerHTML = `Admin: ${usuario.nombre}`;
+					linkLogin.style.color = "#ffd700";
+					
+					// Opcional
+				} else {
+					linkLogin.innerText = `Hola, ${usuario.nombre}`;
+				}
+				linkLogin.href = "/usuario";
+			}
+		} catch (e) {
+			console.error(e);
+			localStorage.removeItem('usuario_zebra');
+		}
+	}
 
-    if (usuarioGuardado) {
-        try {
-            usuario = JSON.parse(usuarioGuardado);
-            console.log("✅ Usuario activo:", usuario.nombre, "| Admin:", usuario.es_admin);
-            
-            // Actualizar el menú de navegación
-            const linkLogin = document.querySelector('a[href="/login"]');
-            if (linkLogin) {
-                // Si es ADMIN (1), le ponemos una corona o texto especial
-                if (usuario.es_admin == 1) {
-                    linkLogin.innerHTML = `Admin: ${usuario.nombre}`;
-                    linkLogin.style.color = "#ffd700"; // Dorado para el jefe
-                    
-                    // (Opcional) Aquí podrías mostrar botones ocultos de "Agregar Libro"
-                    // document.getElementById('btn-agregar-libro').style.display = 'block';
-                } else {
-                    linkLogin.innerText = `Hola, ${usuario.nombre}`;
-                }
-                linkLogin.href = "/usuario";
-            }
-        } catch (e) {
-            console.error(e);
-            localStorage.removeItem('usuario_zebra');
-        }
-    }
+	// Perfil
+	const perfilNombre = document.getElementById('perfil-nombre');
+	
+	if (perfilNombre) {
+		if (!usuario) {
+			window.location.href = '/login';
+		} else {
+			// Datos
+			document.getElementById('perfil-nombre').innerText = usuario.nombre;
+			document.getElementById('perfil-email').innerText = usuario.email;
 
-    // ==========================================
-    // 2. PÁGINA DE PERFIL (user.html)
-    // ==========================================
-    const perfilNombre = document.getElementById('perfil-nombre');
-    
-    if (perfilNombre) {
-        if (!usuario) {
-            window.location.href = '/login';
-        } else {
-            // Rellenar datos
-            document.getElementById('perfil-nombre').innerText = usuario.nombre;
-            document.getElementById('perfil-email').innerText = usuario.email;
+			// Préstamos
+			const listaPrestamos = document.getElementById('lista-prestamos');
+			
+			if (listaPrestamos) {
+				// Fetch
+				fetch(`/api/mis_prestamos?id_usuario=${usuario.id}`)
+					.then(r => r.json())
+					.then(libros => {
+						if (libros.length === 0) {
+							listaPrestamos.innerHTML = "<p style='padding:10px; color:#666;'>No tienes libros prestados actualmente.</p>";
+						} else {
+							listaPrestamos.innerHTML = "";
+							
+							libros.forEach(libro => {
+								const div = document.createElement('div');
+								div.className = 'item-prestamo';
+								// Estilos
+								div.style = "display:flex; justify-content:space-between; align-items:center; border:1px solid #ddd; padding:10px; margin-bottom:10px; background:white; border-radius:5px;";
+								
+								div.innerHTML = `
+									<div style="display:flex; align-items:center; gap:10px;">
+										<img src="${libro.img}" style="width:40px; height:60px; object-fit:cover;">
+										<div>
+											<strong style="display:block;">${libro.titulo}</strong>
+											<span style="font-size:0.8em; color:#555;">${libro.autor}</span>
+										</div>
+									</div>
+									<button class="btn-devolver" data-id="${libro.id}" style="background:#d9534f; color:white; border:none; padding:5px 10px; border-radius:3px; cursor:pointer;">Devolver</button>
+								`;
+								listaPrestamos.appendChild(div);
+							});
 
-            // --- LÓGICA DE MIS PRÉSTAMOS (NUEVO) ---
-            const listaPrestamos = document.getElementById('lista-prestamos');
-            
-            if (listaPrestamos) {
-                // Llamamos a la API para ver qué libros tiene este usuario
-                fetch(`/api/mis_prestamos?id_usuario=${usuario.id}`)
-                    .then(r => r.json())
-                    .then(libros => {
-                        if (libros.length === 0) {
-                            listaPrestamos.innerHTML = "<p style='padding:10px; color:#666;'>No tienes libros prestados actualmente.</p>";
-                        } else {
-                            listaPrestamos.innerHTML = ""; // Limpiar mensaje por defecto
-                            
-                            libros.forEach(libro => {
-                                const div = document.createElement('div');
-                                div.className = 'item-prestamo';
-                                // Estilos inline para que se vea bien sin tocar el CSS
-                                div.style = "display:flex; justify-content:space-between; align-items:center; border:1px solid #ddd; padding:10px; margin-bottom:10px; background:white; border-radius:5px;";
-                                
-                                div.innerHTML = `
-                                    <div style="display:flex; align-items:center; gap:10px;">
-                                        <img src="${libro.img}" style="width:40px; height:60px; object-fit:cover;">
-                                        <div>
-                                            <strong style="display:block;">${libro.titulo}</strong>
-                                            <span style="font-size:0.8em; color:#555;">${libro.autor}</span>
-                                        </div>
-                                    </div>
-                                    <button class="btn-devolver" data-id="${libro.id}" style="background:#d9534f; color:white; border:none; padding:5px 10px; border-radius:3px; cursor:pointer;">Devolver</button>
-                                `;
-                                listaPrestamos.appendChild(div);
-                            });
+							// Devolver
+							document.querySelectorAll('.btn-devolver').forEach(btn => {
+								btn.addEventListener('click', (e) => {
+									const idLibro = e.target.getAttribute('data-id');
+									if(confirm("¿Quieres devolver este libro?")) {
+										fetch('/api/devolver', {
+											method: 'POST',
+											headers: {'Content-Type': 'application/json'},
+											body: JSON.stringify({ id_libro: idLibro, id_usuario: usuario.id })
+										})
+										.then(res => res.json())
+										.then(() => {
+											alert("Libro devuelto correctamente.");
+											location.reload();
+										});
+									}
+								});
+							});
+						}
+					})
+					.catch(err => console.error("Error cargando préstamos:", err));
+			}
+		}
 
-                            // Activar botones de devolver
-                            document.querySelectorAll('.btn-devolver').forEach(btn => {
-                                btn.addEventListener('click', (e) => {
-                                    const idLibro = e.target.getAttribute('data-id');
-                                    if(confirm("¿Quieres devolver este libro?")) {
-                                        fetch('/api/devolver', {
-                                            method: 'POST',
-                                            headers: {'Content-Type': 'application/json'},
-                                            body: JSON.stringify({ id_libro: idLibro, id_usuario: usuario.id })
-                                        })
-                                        .then(res => res.json())
-                                        .then(() => {
-                                            alert("Libro devuelto correctamente.");
-                                            location.reload();
-                                        });
-                                    }
-                                });
-                            });
-                        }
-                    })
-                    .catch(err => console.error("Error cargando préstamos:", err));
-            }
-        }
+		// Logout
+		const btnsLogout = [document.getElementById('btn-logout-nav'), document.getElementById('btn-logout-main')];
+		btnsLogout.forEach(btn => {
+			if(btn) {
+				btn.addEventListener('click', (e) => {
+					e.preventDefault();
+					if(confirm("¿Cerrar sesión?")) {
+						localStorage.removeItem('usuario_zebra');
+						window.location.href = '/login';
+					}
+				});
+			}
+		});
+	}
+	// Registro
+	const formRegistro = document.getElementById('form-registro');
+	if (formRegistro) {
+		formRegistro.addEventListener('submit', (e) => {
+			e.preventDefault();
+			const nombre = document.getElementById('nombre').value;
+			const email = document.getElementById('email').value;
+			const password = document.getElementById('password').value;
 
-        // Botones Logout
-        const btnsLogout = [document.getElementById('btn-logout-nav'), document.getElementById('btn-logout-main')];
-        btnsLogout.forEach(btn => {
-            if(btn) {
-                btn.addEventListener('click', (e) => {
-                    e.preventDefault();
-                    if(confirm("¿Cerrar sesión?")) {
-                        localStorage.removeItem('usuario_zebra');
-                        window.location.href = '/login';
-                    }
-                });
-            }
-        });
-    }
-    
-    // ==========================================
-    // 3. REGISTRO
-    // ==========================================
-    const formRegistro = document.getElementById('form-registro');
-    if (formRegistro) {
-        formRegistro.addEventListener('submit', (e) => {
-            e.preventDefault();
-            const nombre = document.getElementById('nombre').value;
-            const email = document.getElementById('email').value;
-            const password = document.getElementById('password').value;
+			fetch('/api/registro', {
+				method: 'POST',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify({ nombre, email, password })
+			})
+			.then(res => {
+				if (res.ok) return res.json();
+				throw new Error('Error en registro.');
+			})
+			.then(() => {
+				alert('¡Cuenta creada! Inicia sesión.');
+				window.location.href = '/login';
+			})
+			.catch(err => alert(err.message));
+		});
+	}
 
-            fetch('/api/registro', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ nombre, email, password })
-            })
-            .then(res => {
-                if (res.ok) return res.json();
-                throw new Error('Error en registro.');
-            })
-            .then(() => {
-                alert('¡Cuenta creada! Inicia sesión.');
-                window.location.href = '/login';
-            })
-            .catch(err => alert(err.message));
-        });
-    }
+	// Login
+	const formLogin = document.getElementById('form-login');
+	if (formLogin) {
+		formLogin.addEventListener('submit', (e) => {
+			e.preventDefault();
+			const email = document.getElementById('email').value;
+			const password = document.getElementById('password').value;
 
-    // ==========================================
-    // 4. LOGIN
-    // ==========================================
-    const formLogin = document.getElementById('form-login');
-    if (formLogin) {
-        formLogin.addEventListener('submit', (e) => {
-            e.preventDefault();
-            const email = document.getElementById('email').value;
-            const password = document.getElementById('password').value;
+			fetch('/api/login', {
+				method: 'POST',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify({ email, password })
+			})
+			.then(res => {
+				if (res.ok) return res.json();
+				throw new Error('Credenciales incorrectas');
+			})
+			.then(dataUsuario => {
+				localStorage.setItem('usuario_zebra', JSON.stringify(dataUsuario));
+				window.location.href = '/catalogo';
+			})
+			.catch(err => alert(err.message));
+		});
+	}
 
-            fetch('/api/login', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ email, password })
-            })
-            .then(res => {
-                if (res.ok) return res.json();
-                throw new Error('Credenciales incorrectas');
-            })
-            .then(dataUsuario => {
-                localStorage.setItem('usuario_zebra', JSON.stringify(dataUsuario));
-                window.location.href = '/catalogo';
-            })
-            .catch(err => alert(err.message));
-        });
-    }
-
-    // ==========================================
-    // 5. CATÁLOGO
-    // ==========================================
-    // ==========================================
-    // 5. CATÁLOGO Y BUSCADOR
-    // ==========================================
+	// Catálogo
+	// ==========================================
     
     // --- LÓGICA DE ADMIN: MOSTRAR PANEL ---
     const panelAdmin = document.getElementById('panel-admin');
@@ -184,36 +169,35 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Solo mostramos el panel si hay usuario Y es admin (1)
     if (panelAdmin && usuario && usuario.es_admin == 1) {
-        panelAdmin.style.display = 'block'; // ¡Aparece el panel!
-        
-        // Lógica para enviar el nuevo libro
-        // Lógica para enviar el nuevo libro
-        formAgregarLibro.addEventListener('submit', (e) => {
-            e.preventDefault();
-            const titulo = document.getElementById('nuevo-titulo').value;
-            const autor = document.getElementById('nuevo-autor').value;
-            const categoria = document.getElementById('nuevo-categoria').value; // <--- NUEVO
-            const img = document.getElementById('nuevo-img').value;
-            const sinopsis = document.getElementById('nuevo-sinopsis').value; // Con 'n'
+		// Admin
+		panelAdmin.style.display = 'block';
+		
+		// Enviar libro
+		formAgregarLibro.addEventListener('submit', (e) => {
+			e.preventDefault();
+			const titulo = document.getElementById('nuevo-titulo').value;
+			const autor = document.getElementById('nuevo-autor').value;
+			const categoria = document.getElementById('nuevo-categoria').value; // <--- NUEVO
+			const img = document.getElementById('nuevo-img').value;
+			const sinopsis = document.getElementById('nuevo-sinopsis').value; // Con 'n'
 
-            fetch('/api/admin/agregar_libro', {
-                method: 'POST',
-                headers: {'Content-Type': 'application/json'},
-                // Enviamos 'sinopsis' correctamente
-                body: JSON.stringify({ titulo, autor, categoria, img, sinopsis })
-            }).then(res => {
-                if(res.ok) {
-                    alert("📚 Libro agregado correctamente");
-                    location.reload();
-                } else {
-                    alert("Error al guardar (Revisa consola del servidor)");
-                }
-            });
-        });
-    }
+			fetch('/api/admin/agregar_libro', {
+				method: 'POST',
+				headers: {'Content-Type': 'application/json'},
+				body: JSON.stringify({ titulo, autor, categoria, img, sinopsis })
+			}).then(res => {
+				if(res.ok) {
+					alert("Libro agregado correctamente");
+					location.reload();
+				} else {
+					alert("Error al guardar (Revisa consola del servidor)");
+				}
+			});
+		});
+	}
 
-    // ... (Aquí sigue el resto de tu código de mostrarLibros) ...
-    const contenedorLibros = document.getElementById('contenedor-libros');
+	// Mostrar libros
+	const contenedorLibros = document.getElementById('contenedor-libros');
     const inputBuscador = document.getElementById('buscador');
     let librosMemoria = []; 
 
@@ -255,9 +239,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // ==========================================
-    // 6. DETALLE Y PRÉSTAMO
-    // ==========================================
+    // Detalle
     const tituloDetalle = document.getElementById('detalle-titulo');
 
     if (tituloDetalle) {
@@ -307,7 +289,8 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 });
-
+ 
+// Errores
 if (contenedorLibros) { 
         fetch('/api/libros')
             .then(r => {
@@ -321,12 +304,12 @@ if (contenedorLibros) {
             })
             .catch(err => {
                 console.error(err);
-                // ESTO HACE QUE EL ERROR APAREZCA EN PANTALLA
+                // Error UI
                 contenedorLibros.innerHTML = `<div style="text-align:center; padding:20px;">
-                    <h3 style="color:red;">⚠️ Error cargando libros</h3>
-                    <p>${err.message}</p>
-                    <small>Revisa la consola (F12) para más detalles.</small>
-                </div>`;
+            <h3 style="color:red;">Error cargando libros</h3>
+            <p>${err.message}</p>
+            <small>Revisa la consola (F12) para más detalles.</small>
+        </div>`;
             });
 
         if (inputBuscador) {

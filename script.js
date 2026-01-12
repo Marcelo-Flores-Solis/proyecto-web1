@@ -1,3 +1,4 @@
+// Cuenta
 class Cuenta {
     constructor(email, password, rememberMe) {
         this.email = email;
@@ -16,6 +17,7 @@ class Cuenta {
     }
 }
 
+// Form
 const form = document.querySelector('form');
 
 form.addEventListener('submit', function(event) {
