@@ -14,6 +14,7 @@
 
 __Repositorio GitHub:__ https://github.com/Marcelo-Flores-Solis/proyecto-web1.git
 __Enlace de la página:__ [railwaygrupal-production.up.railway.app](https://proyecto-web1-production.up.railway.app/)
+__Video explicativo:__ [https://youtu.be/zT22RMjlxz4] (https://youtu.be/zT22RMjlxz4)
 
 ### Descripción
 ZEBRALibra es una página web con el propósito de divulgar libros de distintos géneros letarios vía online (mediante conexión remota a una página oficial de venta de libros). A continuación, se presentan las instrucciones para su uso:
