@@ -163,20 +163,24 @@ def verificar_usuario(email, password):
             conn.close()
     return usuario
 
+
 # --- ADMIN: AGREGAR LIBRO ---
 # --- ADMIN: AGREGAR LIBRO (CORREGIDO) ---
-def crear_libro(titulo, autor, categoria, img, sipnosis):
+def crear_libro(titulo, autor, categoria, img, sinopsis):
     conn = crear_conexion()
     if conn and conn.is_connected():
         try:
             cursor = conn.cursor()
-            # Fíjate que ahora incluimos 'categoria' y usamos 'sipnosis' (con p)
+            
+            # --- CORRECCIÓN AQUÍ ---
+            # Fíjate que dice 'sinopsis' (con n) en la lista de columnas
             query = """
                 INSERT INTO libros 
-                (titulo, autor, categoria, img, sipnosis, disponible) 
+                (titulo, autor, categoria, img, sinopsis, disponible) 
                 VALUES (%s, %s, %s, %s, %s, 1)
             """
-            cursor.execute(query, (titulo, autor, categoria, img, sipnosis))
+            
+            cursor.execute(query, (titulo, autor, categoria, img, sinopsis))
             conn.commit()
             return True
         except Error as e:
