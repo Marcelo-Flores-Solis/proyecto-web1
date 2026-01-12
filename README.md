@@ -13,7 +13,7 @@
 - MySQL
 
 __Repositorio GitHub:__ https://github.com/Marcelo-Flores-Solis/proyecto-web1.git
-__Enlace de la página:__ [railwaygrupal-production.up.railway.app](railwaygrupal-production.up.railway.app)
+__Enlace de la página:__ [railwaygrupal-production.up.railway.app](https://proyecto-web1-production.up.railway.app/)
 
 ### Descripción
 ZEBRALibra es una página web con el propósito de divulgar libros de distintos géneros letarios vía online (mediante conexión remota a una página oficial de venta de libros). A continuación, se presentan las instrucciones para su uso:
@@ -49,6 +49,3 @@ El botón "Recuérdame" guarda la contraseña para cuando el usuario vuelva a in
 Si el usuario no tiene una cuenta puede registrarse en la pestaña "Registrarse", la cual está enlazada en "¿No tienes cuenta? <u>Regístrate</u>"
 De la misma forma que en el Registro, se puede continuar sin cuenta al dar click en "<u>Continuar sin cuenta</u>"
 
-## Contraseña olvidada
-!()
-En caso el usuario, que esté ingresado, olvide su contraseña podrá recuperarla ingresando su correo, entonces se le enviarán instrucciones a esa dirección para recuperarla.
